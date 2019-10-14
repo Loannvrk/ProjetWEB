@@ -15,11 +15,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Loannvrk/ProjetWeb.git"
+    "url": "git+https://github.com/Loannvrk/ProjetWEB.git"
   },
   "bugs": {
-    "url": "https://github.com/Loannvrk/ProjetWeb/issues"
+    "url": "https://github.com/Loannvrk/ProjetWEB/issues"
   },
-  "homepage": "https://github.com/Loannvrk/ProjetWeb#readme",
+  "homepage": "https://github.com/Loannvrk/ProjetWEB#readme",
   "description": ""
 }
