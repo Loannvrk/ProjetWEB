@@ -11,8 +11,17 @@ app.engine('hbs', hbs({
 }));
 app.set('view engine', 'hbs');
 
+app.get('/', function (req, res) {
+  let data = {
+    title: 'Homepage'
+  }
+  res.render("test.hbs",data);
+});
+
 app.get('/*', function (req, res) {
   res.sendStatus(404);
-})
+});
 
 app.listen(3000, function () {
+  console.log('listening on port 3000');
+});
