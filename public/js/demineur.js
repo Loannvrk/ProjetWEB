@@ -1,6 +1,7 @@
 var board;// Plateau
+//(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var visibleBoard;// Plateau visible
-//(0 : case cachée)(1 : case contenant un numéro)(2 : case vide)(3 : case drapeau)(4 : case point d'interrogation)
+//(0 : case cachée)(1 : case contenant un numéro ou vide)(2 : case drapeau)(3 : case point d'interrogation)
 var htmlBoard;
 var gamediv = document.querySelector("#gamediv");
 const ratio = 0.2;
@@ -32,7 +33,7 @@ function initGame(size){
     }
   }
 }
-
+// Compte le nombre de bombes sur les cases adjacentes à la case (x,y)
 function detectionBomb(x,y,size){
   var counter;
   // Comptage du nombre de bombes sur cases adjacentes
@@ -45,7 +46,7 @@ function detectionBomb(x,y,size){
   }
   tab[i][j]=counter;
 }
-
+// Initialise le plateau de jeu en HTMl
 function initInnerHTML(size) {
   /*HTMLElement * int -> HTMLElement[]
     creates cells to an empty <table>*/
@@ -87,7 +88,7 @@ function playOnCell(x,y,button){
         lost();
         break;
       case 0 :
-
+        caseVide(x,y);
         break;
       default :
         visibleBoard[x][y]=1;
@@ -98,30 +99,66 @@ function playOnCell(x,y,button){
   else if(button==2){
     switch(visibleBoard[x][y]){
       case 0 :
-        visibleBoard[x][y]==3;
+        visibleBoard[x][y]==2;
         htmlBoard[x].childNodes[y].setAttribute("id","flag");
         break;
-      case 3 :
-        visibleBoard[x][y]==4;
+      case 2 :
+        visibleBoard[x][y]==3;
         htmlBoard[x].childNodes[y].setAttribute("id","questionMark");
         break;
-      case 4 :
+      case 3 :
         visibleBoard[x][y]=0;
         htmlBoard[x].childNodes[y].setAttribute("id","");
         break;
     }
   }
+  partieGagnee();
+}
+// Dévoile les cases adjacentes à la case vide (x,y)
+function caseVide(x,y){
+  for(var i=x-1;i<x+1;i++){
+    for(var j=y-1;j<y+1;j++){
+      switch(board[i][j]){
+        case 0 :
+          htmlBoard[x].childNodes[y].setAttribute("id","visible");
+          caseVide(i,j);
+          break;
+        default :
+          htmlBoard[x].childNodes[y].innerText(board[x][y]);
+          htmlBoard[x].childNodes[y].setAttribute("id",board[x][y].toString(10));
+      }
+      visibleBoard[x][y]=1;
+    }
+  }
 }
 
+// Révèle les bombes et bloque le jeu
 function lost(){
-  for(var i=0;i<htmlBoard.length;i++){
-    for(var j=0;j<cell.length;j++){
+  for(var i=0;i<board.length;i++){
+    for(var j=0;j<board[i].length;j++){
      if(board[i][j]==-1){
       htmlBoard[i].childNodes[j].setAttribute("class","bomb");// Affiche toutes les bombes
      }
-     visibleBoard[i][j]=2; // Empêche de continuer à jouer
+     visibleBoard[i][j]=1; // Empêche de continuer à jouer
     }
   }
+  gamediv.setAttribute("id","perdu");
+}
+
+function partieGagnee(){
+  for(var i=0;i<visibleBoard.length;i++){
+    for(var j=0;j<visibleBoard[i].length;j++){
+      if(visibleBoard[i][j]==0 && board[i][j]!=-1){
+        return ;
+      }
+    }
+  }
+  for(var i=0;i<visibleBoard.length;i++){
+    for(var j=0;j<visibleBoard[i].length;j++){
+      visibleBoard[i][j]==1;// Bloque le plateau
+    }
+  }
+  gamediv.setAttribute("id","gagne");
 }
 
 function Init(size) {
