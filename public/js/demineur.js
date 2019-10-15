@@ -49,7 +49,7 @@ function detectionBomb(x,y,size){
 function initInnerHTML(size) {
   /*HTMLElement * int -> HTMLElement[]
     creates cells to an empty <table>*/
-  var innerhtml=''
+  var innerhtml='';
   for (var i=0; i<size; i++) {
     innerhtml += "<tr>";
     for (var j=0; j<size; j++) {
@@ -83,26 +83,43 @@ function playOnCell(x,y,button){
   if(button==0 && visibleBoard[x][y]==0){
     switch (board[x][y]){
       case -1 :
-        htmlBoard[x].childNodes[y].addClass
+        htmlBoard[x].childNodes[y].setAttribute("id","theOne");
+        lost();
         break;
       case 0 :
 
         break;
       default :
+        visibleBoard[x][y]=1;
         htmlBoard[x].childNodes[y].innerText(board[x][y]);
+        htmlBoard[x].childNodes[y].setAttribute("id",board[x][y].toString(10));
     }
   }
   else if(button==2){
     switch(visibleBoard[x][y]){
       case 0 :
         visibleBoard[x][y]==3;
+        htmlBoard[x].childNodes[y].setAttribute("id","flag");
         break;
       case 3 :
         visibleBoard[x][y]==4;
+        htmlBoard[x].childNodes[y].setAttribute("id","questionMark");
         break;
       case 4 :
         visibleBoard[x][y]=0;
+        htmlBoard[x].childNodes[y].setAttribute("id","");
         break;
+    }
+  }
+}
+
+function lost(){
+  for(var i=0;i<htmlBoard.length;i++){
+    for(var j=0;j<cell.length;j++){
+     if(board[i][j]==-1){
+      htmlBoard[i].childNodes[j].setAttribute("class","bomb");// Affiche toutes les bombes
+     }
+     visibleBoard[i][j]=2; // Empêche de continuer à jouer
     }
   }
 }
