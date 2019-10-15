@@ -1,0 +1,35 @@
+#gamediv{
+  height: 200px;
+  width: 200px;
+  background-color: black;
+}
+#theOne{
+  background-color: red;
+}
+
+#cell{
+  background-color: navy;
+}
+
+#visible{
+  background: lightgrey;
+}
+
+.bomb{
+  background-color: white;
+}
+
+#perdu{
+
+}
+
+#gagne{
+
+}
+
+#flag{
+  background-color: yellow;
+}
+#questionMark{
+  background-color: green;
+}

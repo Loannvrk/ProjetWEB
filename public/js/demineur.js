@@ -93,7 +93,7 @@ function playOnCell(x,y,button){
       default :
         visibleBoard[x][y]=1;
         htmlBoard[x].childNodes[y].innerText(board[x][y]);
-        htmlBoard[x].childNodes[y].setAttribute("id",board[x][y].toString(10));
+        htmlBoard[x].childNodes[y].setAttribute("id","visible");
     }
   }
   else if(button==2){
@@ -120,13 +120,12 @@ function caseVide(x,y){
     for(var j=y-1;j<y+1;j++){
       switch(board[i][j]){
         case 0 :
-          htmlBoard[x].childNodes[y].setAttribute("id","visible");
           caseVide(i,j);
           break;
         default :
           htmlBoard[x].childNodes[y].innerText(board[x][y]);
-          htmlBoard[x].childNodes[y].setAttribute("id",board[x][y].toString(10));
       }
+      htmlBoard[x].childNodes[y].setAttribute("id","visible");
       visibleBoard[x][y]=1;
     }
   }
@@ -166,5 +165,5 @@ function Init(size) {
   initInnerHTML(size);                      // créer le tableau aléatoire
   initClickListeners();                      // rendre les cellules du tableau clickables
   initGame(size);                               // créer les tableaux de jeux
-  return tab;
 }
+Init(10);
