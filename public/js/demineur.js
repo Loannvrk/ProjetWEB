@@ -2,6 +2,7 @@ var board;// Plateau
 var visibleBoard;// Plateau visible
 //(0 : case cachée)(1 : case contenant un numéro)(2 : case vide)(3 : case drapeau)(4 : case point d'interrogation)
 var htmlBoard;
+var gamediv = document.querySelector("#gamediv");
 const ratio = 0.2;
 var bombs;
 // Init function
@@ -45,7 +46,7 @@ function detectionBomb(x,y,size){
   tab[i][j]=counter;
 }
 
-function initInnerHTML(tab,size) {
+function initInnerHTML(size) {
   /*HTMLElement * int -> HTMLElement[]
     creates cells to an empty <table>*/
   var innerhtml=''
@@ -56,7 +57,7 @@ function initInnerHTML(tab,size) {
     }
     innerhtml += "</tr>";
   }
-  tab.innerHTML = innerhtml;
+  gamediv.innerHTML = innerhtml;
 }
 
 htmlBoard = document.querySelectorAll("tr");
@@ -65,7 +66,7 @@ function initClickListeners(){
   /*HTMLElement[] -> void
   creates cells' click cells*/
   var cell;
-  for (var i=0; i<tab.length; i++) {
+  for (var i=0; i<htmlBoard.length; i++) {
     cell = htmlBoard[i].childNodes;
     for(var j=0; i<cell.length;j++){
       cell[j].addEventListener("click",getPlayOnCell(i,j));
@@ -73,16 +74,25 @@ function initClickListeners(){
   }
 }
 
-function getPlayOnCell(x,y,){
+function getPlayOnCell(x,y){
   /*void -> function*/
   return function(event){playOnCell(x,y,event.button);};
 }
 
-function playOnCell(x,y,keycode){
-  if(keycode==1 && visibleBoard[x][y]==0){
+function playOnCell(x,y,button){
+  if(button==0 && visibleBoard[x][y]==0){
+    switch (board[x][y]){
+      case -1 :
+        htmlBoard[x].childNodes[y].addClass
+        break;
+      case 0 :
 
+        break;
+      default :
+        htmlBoard[x].childNodes[y].innerText(board[x][y]);
+    }
   }
-  else{
+  else if(button==2){
     switch(visibleBoard[x][y]){
       case 0 :
         visibleBoard[x][y]==3;
@@ -99,8 +109,7 @@ function playOnCell(x,y,keycode){
 
 function Init(size) {
   /*int -> HTMLElement[]*/
-  var tab = document.querySelector("#gamediv"); // récupérer la zone de création du tableau
-  initInnerHTML(tab,size);                      // créer le tableau aléatoire
+  initInnerHTML(size);                      // créer le tableau aléatoire
   initClickListeners();                      // rendre les cellules du tableau clickables
   initGame(size);                               // créer les tableaux de jeux
   return tab;
