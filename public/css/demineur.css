@@ -13,11 +13,11 @@
   height: 20px;
 }
 
-.visible {
+#visible {
   background: lightgrey;
 }
 
-.bomb {
+#bomb {
   background-color: Firebrick;
 }
 
@@ -33,5 +33,5 @@
   background-color: yellow;
 }
 #questionMark {
-  background-color: green;
+  background-color: brown;
 }

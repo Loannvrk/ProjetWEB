@@ -57,7 +57,7 @@ function initInnerHTML(size) {
     creates cells to an empty <table>*/
   var innerhtml='';
   for (var i=0; i<size; i++) {
-    innerhtml += "<tr>";
+    innerhtml += "<tr class=\'ligne\'>";
     for (var j=0; j<size; j++) {
       innerhtml += "<th class=\'cell\'>";
       //innerhtml += board[i][j];
@@ -66,7 +66,7 @@ function initInnerHTML(size) {
     innerhtml += "</tr>";
   }
   gamediv.innerHTML = innerhtml;
-  return document.querySelectorAll("tr");
+  boardHtml = document.querySelectorAll("tr.ligne");
 }
 
 function initClickListeners(){
@@ -84,10 +84,10 @@ function initClickListeners(){
 
 function getPlayOnCell(x,y){
   /*void -> function*/
-  return function(event){playOnCell(x,y,event.button);};
+  return function(){playOnCell(x,y);};
 }
 
-function playOnCell(x,y,button){
+function playOnCell(x,y){
   if(boardVisible[x][y]==0){
     switch (board[x][y]){
       case -1 :
@@ -113,11 +113,11 @@ function getDefCell(x,y){
 function defCell(x,y){
   switch(boardVisible[x][y]){
     case 0 :
-      boardVisible[x][y]==2;
+      boardVisible[x][y]=2;
       boardHtml[x].childNodes[y].setAttribute("id","flag");
       break;
     case 2 :
-      boardVisible[x][y]==3;
+      boardVisible[x][y]=3;
       boardHtml[x].childNodes[y].setAttribute("id","questionMark");
       break;
     case 3 :
@@ -128,13 +128,13 @@ function defCell(x,y){
 }
 // Dévoile les cases adjacentes à la case vide (x,y)
 function caseVide(x,y){
-  boardHtml[x].childNodes[y].setAttribute("class","visible");
+  boardHtml[x].childNodes[y].setAttribute("id","visible");
   var limit = board.length;
   for(var i = x-1 ; i <= x+1; i++){
     for(var j = y-1; j <= y+1; j++){
         if( (i >= 0 && i < limit) && (j >= 0 && j < limit) && (boardVisible[i][j] != 1) ){
           boardVisible[i][j]=1;
-          boardHtml[i].childNodes[j].setAttribute("class","visible");
+          boardHtml[i].childNodes[j].setAttribute("id","visible");
           switch(board[i][j]){
             case 0 :
               caseVide(i,j);
@@ -152,7 +152,7 @@ function lost(){
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++){
      if(board[i][j]==-1){
-      boardHtml[i].childNodes[j].setAttribute("class","bomb");// Affiche toutes les bombes
+      boardHtml[i].childNodes[j].setAttribute("id","bomb");// Affiche toutes les bombes
      }
      boardVisible[i][j]=1; // Empêche de continuer à jouer
     }
@@ -178,9 +178,8 @@ function win(){
 
 function Init(size) {
   /*int -> HTMLElement[]*/
-  initGame(size);
-  boardHtml = initInnerHTML(size);                       // créer le tableau aléatoire
-  initClickListeners();                      // rendre les cellules du tableau clickables
-                              // créer les tableaux de jeux
+  initGame(size);                     // créer les tableaux de jeux
+  initInnerHTML(size);    // créer le tableau aléatoire
+  initClickListeners();               // rendre les cellules du tableau clickables
 }
-Init(20);
+Init(10);
