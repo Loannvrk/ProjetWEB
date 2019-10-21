@@ -1,35 +1,37 @@
-#gamediv{
-  height: 200px;
-  width: 200px;
+#gamedivD {
   background-color: black;
+
 }
-#theOne{
-  background-color: red;
+#theOne {
+  background-color: Crimson;
 }
 
-#cell{
-  background-color: navy;
+.cell {
+  background-color: grey;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
 }
 
-#visible{
+#visible {
   background: lightgrey;
 }
 
-.bomb{
-  background-color: white;
+.bomb {
+  background-color: Darkred;
 }
 
-#perdu{
-
-}
-
-#gagne{
+#perdu {
 
 }
 
-#flag{
+#gagne {
+
+}
+
+#flag {
   background-color: yellow;
 }
-#questionMark{
+#questionMark {
   background-color: green;
 }
