@@ -1,10 +1,11 @@
+document.oncontextmenu = new Function("return false"); // Bloque le menu du clique droit
 var board=[];// Plateau contenant les éléments de jeu
 //(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var boardVisible=[];// Plateau visible
 //(0 : case cachée)(1 : case contenant un numéro ou vide)(2 : case drapeau)(3 : case point d'interrogation)
 var boardHtml;
 var gamediv = document.querySelector("#gamedivD");// Ecran de jeu
-const ratio = 0.1;// Ratio de bombes/cases
+const ratio = 0.15;// Ratio de bombes/cases
 var bombs;// Nombre de bombes
 // Init function
 function initGame(size){
@@ -59,7 +60,7 @@ function initInnerHTML(size) {
     innerhtml += "<tr>";
     for (var j=0; j<size; j++) {
       innerhtml += "<th class=\'cell\'>";
-      innerhtml += board[i][j];
+      //innerhtml += board[i][j];
       innerhtml +="</th>";
     }
     innerhtml += "</tr>";
@@ -76,6 +77,7 @@ function initClickListeners(){
     cell = boardHtml[i].childNodes;
     for(var j=0; j<cell.length;j++){
       cell[j].addEventListener("click",getPlayOnCell(i,j));
+      cell[j].addEventListener("contextmenu",getDefCell(i,j));
     }
   }
 }
@@ -86,12 +88,12 @@ function getPlayOnCell(x,y){
 }
 
 function playOnCell(x,y,button){
-  if(button==0 && boardVisible[x][y]==0){
+  if(boardVisible[x][y]==0){
     switch (board[x][y]){
       case -1 :
         boardHtml[x].childNodes[y].setAttribute("id","theOne");
         lost();
-        break;
+        return;
       case 0 :
         caseVide(x,y);
         break;
@@ -101,33 +103,38 @@ function playOnCell(x,y,button){
         boardHtml[x].childNodes[y].setAttribute("id","visible");
     }
   }
-  else if(button==2){
-    switch(boardVisible[x][y]){
-      case 0 :
-        boardVisible[x][y]==2;
-        boardHtml[x].childNodes[y].setAttribute("id","flag");
-        break;
-      case 2 :
-        boardVisible[x][y]==3;
-        boardHtml[x].childNodes[y].setAttribute("id","questionMark");
-        break;
-      case 3 :
-        boardVisible[x][y]=0;
-        boardHtml[x].childNodes[y].setAttribute("id","");
-        break;
-    }
+  win();
+}
+
+function getDefCell(x,y){
+  return function(){return defCell(x,y);};
+}
+
+function defCell(x,y){
+  switch(boardVisible[x][y]){
+    case 0 :
+      boardVisible[x][y]==2;
+      boardHtml[x].childNodes[y].setAttribute("id","flag");
+      break;
+    case 2 :
+      boardVisible[x][y]==3;
+      boardHtml[x].childNodes[y].setAttribute("id","questionMark");
+      break;
+    case 3 :
+      boardVisible[x][y]=0;
+      boardHtml[x].childNodes[y].setAttribute("id","");
+      break;
   }
-  partieGagnee();
 }
 // Dévoile les cases adjacentes à la case vide (x,y)
 function caseVide(x,y){
-  boardHtml[x].childNodes[y].setAttribute("id","visible");
+  boardHtml[x].childNodes[y].setAttribute("class","visible");
   var limit = board.length;
   for(var i = x-1 ; i <= x+1; i++){
     for(var j = y-1; j <= y+1; j++){
         if( (i >= 0 && i < limit) && (j >= 0 && j < limit) && (boardVisible[i][j] != 1) ){
           boardVisible[i][j]=1;
-          boardHtml[i].childNodes[j].setAttribute("id","visible");
+          boardHtml[i].childNodes[j].setAttribute("class","visible");
           switch(board[i][j]){
             case 0 :
               caseVide(i,j);
@@ -150,10 +157,10 @@ function lost(){
      boardVisible[i][j]=1; // Empêche de continuer à jouer
     }
   }
-  gamediv.setAttribute("id","perdu");
+  gamediv.setAttribute("id","loose");
 }
 
-function partieGagnee(){
+function win(){
   for(var i=0;i<boardVisible.length;i++){
     for(var j=0;j<boardVisible[i].length;j++){
       if(boardVisible[i][j]==0 && board[i][j]!=-1){
@@ -166,7 +173,7 @@ function partieGagnee(){
       boardVisible[i][j]==1;// Bloque le plateau
     }
   }
-  gamediv.setAttribute("id","gagne");
+  gamediv.setAttribute("id","win");
 }
 
 function Init(size) {
@@ -176,4 +183,4 @@ function Init(size) {
   initClickListeners();                      // rendre les cellules du tableau clickables
                               // créer les tableaux de jeux
 }
-Init(4);
+Init(20);

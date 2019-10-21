@@ -13,20 +13,20 @@
   height: 20px;
 }
 
-#visible {
+.visible {
   background: lightgrey;
 }
 
 .bomb {
-  background-color: Darkred;
+  background-color: Firebrick;
 }
 
-#perdu {
-
+#loose {
+  background-color: Maroon;
 }
 
-#gagne {
-
+#win {
+  background-color: green;
 }
 
 #flag {

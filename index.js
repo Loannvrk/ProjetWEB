@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 
 app.get('/demineur', function (req, res) {
   let data = {
-    tile: 'demineur',
+    title: 'Demineur',
     css: './css/demineur.css',
     script: './javascript/demineur.js'
   }
