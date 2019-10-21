@@ -13,9 +13,20 @@ app.set('view engine', 'hbs');
 
 app.get('/', function (req, res) {
   let data = {
-    title: 'Homepage'
+    title: 'Homepage',
+    css: './css/test.css',
+    script: ''
   }
-  res.render("test.hbs",data);
+  res.render("homepage.hbs",data);
+});
+
+app.get('/demineur', function (req, res) {
+  let data = {
+    tile: 'demineur',
+    css: './css/demineur.css',
+    script: './javascript/demineur.js'
+  }
+  res.render("demineur.hbs",data);
 });
 
 app.get('/*', function (req, res) {

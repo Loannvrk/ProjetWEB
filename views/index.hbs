@@ -2,24 +2,45 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ css }}"/>
+  <link rel="stylesheet" type="text/css" href="./css/shared.css"/>
   <title>{{ title }}</title>
 </head>
 <body>
   <header>
   </header>
   <main>
-    <table id='gamesbar'><tbody><tr>
+    <table id="leftlist">
+      <tbody>
+        <tr>
           <th>Games :</th>
-          <td>thisisgamenb1</td>
-    </tr></tbody></table>
-    <div id='gamediv'>
-      {{{ body }}}
+          <td><a href="/demineur">Démineur</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="center">
+      <div id="game">
+        {{{ body }}}
+      </div>
     </div>
-    <table id='highscores'><tbody><tr>
-          <th>Highscores</th>
-          <td>I) me</td>
-    </tbody></tr></table>
+    <div id="rightdiv">
+      <table id="highscores">
+        <tbody>
+          <tr>
+            <th>Highscores :</th>
+            <td>I/ Me</td>
+            <td>II/ Also me</td>
+            <td>III/ Me again</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="spacer"></div>
+      <div id="def">
+        <h3>{{ title }}</h3>
+        <p id="rules">This is the homepage of this website, there nothing to see here.</p
+        </div>
+    </div>
   </main>
+  <script src="{{ script }}"></script>
 </body>
 </html>

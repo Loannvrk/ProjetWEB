@@ -1,0 +1,85 @@
+header {
+  position: fixed;
+  background-color: black;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+}
+body {
+  background-color: #333333;
+  overflow: hidden;
+}
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: fixed;
+  height: calc(98% - 50px);
+  width: 98%;
+  top: calc(1% + 50px);
+  left: 1%;
+}
+
+tr {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+
+th {
+  background-color: grey;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;
+}
+td {
+  padding: 5px;
+  margin-left: 10px;
+}
+#leftlist {
+  width: 200px;
+  overflow: scroll;
+}
+#rightdiv {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+#highscores {
+  width: 100%;
+}
+#spacer {
+  flex-grow: 1;
+}
+#def {
+  background-color: lightgrey;
+  border-radius: 10px;
+  flex-grow: 1;
+}
+#def p {
+  margin: 10px;
+  flex-grow: 1;
+}
+#def h3 {
+  text-align: center;
+  background-color: grey;
+  margin: 0;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#center {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  justify-content: center;
+  flex-grow: 1;
+}
+#game {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
