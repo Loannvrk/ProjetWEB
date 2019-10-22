@@ -1,4 +1,6 @@
-document.oncontextmenu = new Function("return false"); // Bloque le menu du clique droit
+//******************************************************** Global var/const ********************************************************
+
+document.oncontextmenu = new Function("return false"); // Block the right-click menu
 var board=[];// Plateau contenant les éléments de jeu
 //(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var boardVisible=[];// Plateau visible
@@ -6,9 +8,33 @@ var boardVisible=[];// Plateau visible
 var boardHtml;
 var gamediv = document.querySelector("#gamedivD");// Ecran de jeu
 const ratio = 0.15;// Ratio de bombes/cases
+const size;
 var bombs;// Nombre de bombes
-// Init function
-function initGame(size){
+
+
+
+//********************************************************** Get function **********************************************************
+
+function getInitGame(x,y){
+  return initGame(x,y)
+}
+
+function getInitClickListeners(){
+  return initClickListeners();
+}
+
+function getPlayOnCell(x,y){
+  /*void -> function*/
+  return function(){playOnCell(x,y);};
+}
+
+function getDefCell(x,y){
+  return function(){return defCell(x,y);};
+}
+
+//********************************************************** Init function *************************************************************
+
+function initGame(x,y){
   var bombs = Math.round(size*size*ratio);
   // Mise en place du plateau et du plateau visible par l'utilisateur
   do{
@@ -17,7 +43,7 @@ function initGame(size){
       boardVisible[i]=[];
       for(var j=0;j<size;j++){
         boardVisible[i][j]=0;
-        if(Math.random() < ratio){
+        if( Math.random() < ratio && ( (i < x-1 || i > x+1) && (j < y-1 || j > +1)) ){
           board[i][j]=-1;
           bombs--;
         }
@@ -37,22 +63,8 @@ function initGame(size){
   }
 }
 
-// Compte le nombre de bombes sur les cases adjacentes à la case (x,y)
-function detectionBomb(x,y,size){
-  var nbBomb=0;
-  // Comptage du nombre de bombes sur cases adjacentes
-  for(var i=x-1;i<=x+1;i++){
-    for(var j=y-1;j<=y+1;j++){
-      if( (i >= 0 && i < size) && (j >= 0 && j < size) && (board[i][j] == -1)){
-        nbBomb++;
-      }
-    }
-  }
-  board[x][y]=nbBomb;
-}
-
 // Initialise le plateau de jeu en HTMl
-function initInnerHTML(size) {
+function initInnerHTML() {
   /*HTMLElement * int -> HTMLElement[]
     creates cells to an empty <table>*/
   var innerhtml='';
@@ -76,15 +88,50 @@ function initClickListeners(){
   for (var i=0; i<boardHtml.length; i++) {
     cell = boardHtml[i].childNodes;
     for(var j=0; j<cell.length;j++){
+      //Remove listeners to create the board
+      cell[j].removeEventListener("click",initClickListeners());
+      cell[j].removeEventListener("click",getInitGame());
+      //Create listeners to play
       cell[j].addEventListener("click",getPlayOnCell(i,j));
       cell[j].addEventListener("contextmenu",getDefCell(i,j));
     }
   }
 }
 
-function getPlayOnCell(x,y){
-  /*void -> function*/
-  return function(){playOnCell(x,y);};
+function initCreateBoard(){
+  /*HTMLElement[] -> void
+  creates cells' click cells*/
+  var cell;
+  for (var i=0; i<boardHtml.length; i++) {
+    cell = boardHtml[i].childNodes;
+    for(var j=0; j<cell.length;j++){
+      cell[j].addEventListener("click",getInitClickListeners());
+      cell[j].addEventListener("click",getInitGame(i,j));
+    }
+  }
+}
+
+function Init(s) {
+  size = s;
+  /*int -> HTMLElement[]*/
+  initInnerHTML();                      // Create the HTML board
+  initCreateBoard();                    // Listener to start the game (first click init the game)
+}
+
+//************************************************************* Functions ****************************************************************
+
+// Compte le nombre de bombes sur les cases adjacentes à la case (x,y)
+function detectionBomb(x,y,size){
+  var nbBomb=0;
+  // Comptage du nombre de bombes sur cases adjacentes
+  for(var i=x-1;i<=x+1;i++){
+    for(var j=y-1;j<=y+1;j++){
+      if( (i >= 0 && i < size) && (j >= 0 && j < size) && (board[i][j] == -1)){
+        nbBomb++;
+      }
+    }
+  }
+  board[x][y]=nbBomb;
 }
 
 function playOnCell(x,y){
@@ -106,10 +153,6 @@ function playOnCell(x,y){
   }
 }
 
-function getDefCell(x,y){
-  return function(){return defCell(x,y);};
-}
-
 function defCell(x,y){
   switch(boardVisible[x][y]){
     case 0 :
@@ -126,6 +169,7 @@ function defCell(x,y){
       break;
   }
 }
+
 // Dévoile les cases adjacentes à la case vide (x,y)
 function caseVide(x,y){
   boardHtml[x].childNodes[y].setAttribute("id","visible");
@@ -147,7 +191,6 @@ function caseVide(x,y){
   }
 }
 
-// Révèle les bombes et bloque le jeu
 function lost(){
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++){
@@ -176,10 +219,6 @@ function win(){
   gamediv.setAttribute("id","win");
 }
 
-function Init(size) {
-  /*int -> HTMLElement[]*/
-  initGame(size);                     // créer les tableaux de jeux
-  initInnerHTML(size);    // créer le tableau aléatoire
-  initClickListeners();               // rendre les cellules du tableau clickables
-}
+//************************************************************** Start game **************************************************************
+
 Init(10);
