@@ -102,8 +102,8 @@ function playOnCell(x,y){
         boardHtml[x].childNodes[y].innerText = board[x][y];
         boardHtml[x].childNodes[y].setAttribute("id","visible");
     }
+    win();
   }
-  win();
 }
 
 function getDefCell(x,y){
