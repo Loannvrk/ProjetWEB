@@ -31,6 +31,16 @@ app.get('/demineur', function (req, res) {
   res.render("demineur.hbs",data);
 });
 
+app.get('/glisseur', function (req, res) {
+  let data = {
+    title: 'Glisseur',
+    css: './css/glisseur.css',
+    script: './javascript/glisseur.js',
+    rules: '<p>regles</p>'
+  }
+  res.render("glisseur.hbs",data);
+});
+
 app.get('/*', function (req, res) {
   res.sendStatus(404);
 });
