@@ -36,7 +36,7 @@ app.get('/glisseur', function (req, res) {
     title: 'Glisseur',
     css: './css/glisseur.css',
     script: './javascript/glisseur.js',
-    rules: '<p>regles</p>'
+    rules: '<p>Atteindre la case verte</p>'
   }
   res.render("glisseur.hbs",data);
 });

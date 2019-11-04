@@ -1,0 +1,35 @@
+td {
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  opacity: 0.8;
+  padding: 10px;
+  border-radius: 3px;
+  display: center;
+}
+
+
+#GameDiv {
+  background-color:	hsla(175, 15%, 95%, 0);
+  padding: 10px;
+  border-radius: 1px;
+  margin: auto; 
+  position: static;
+  border-style:none;
+   border-radius: 5px;
+    height: 440px;
+    width: 440px;
+        
+}
+
+#activeCell {
+  background-color: yellow ;
+}
+
+#victoire {
+  background-color: green ;
+}
+
+#cailloux {
+	background-color: black ;
+}
