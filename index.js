@@ -15,7 +15,8 @@ app.get('/', function (req, res) {
   let data = {
     title: 'Homepage',
     css: './css/test.css',
-    script: ''
+    script: '',
+    rules: '<p>This is the homepage of this website, not much to see here</p>'
   }
   res.render("homepage.hbs",data);
 });
@@ -24,7 +25,8 @@ app.get('/demineur', function (req, res) {
   let data = {
     title: 'Demineur',
     css: './css/demineur.css',
-    script: './javascript/demineur.js'
+    script: './javascript/demineur.js',
+    rules: '<p>regles</p>'
   }
   res.render("demineur.hbs",data);
 });

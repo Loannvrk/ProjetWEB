@@ -21,20 +21,20 @@ main {
   left: 1%;
 }
 
-#flextable tr {
+.flextable tr {
   flex-direction: column;
   display: flex;
   background-color: lightgrey;
   border-radius: 10px;
 }
 
-#flextable tr th {
+.flextable tr th {
   background-color: grey;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding: 5px;
 }
-#flextable tr td {
+.flextable tr td {
   padding: 5px;
   margin-left: 10px;
 }
@@ -50,7 +50,7 @@ main {
 #highscores {
   width: 100%;
 }
-#spacer {
+.spacer {
   flex-grow: 1;
 }
 #def {
@@ -70,11 +70,13 @@ main {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-#center {
+.center {
   display: flex;
   flex-direction: column;
-  margin: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
   justify-content: center;
+  border-radius: 20px;
   flex-grow: 1;
 }
 #game {
@@ -82,4 +84,9 @@ main {
   flex-direction: row;
   justify-content: center;
   width: 100%;
+}
+
+.logo {
+  width: 40px;
+  padding: 5px;
 }

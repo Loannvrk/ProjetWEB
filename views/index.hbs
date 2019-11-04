@@ -8,24 +8,27 @@
 </head>
 <body>
   <header>
+    <a href="/">
+      <img class="logo" src="./images/home.png"/>
+    </a>
   </header>
   <main>
     <table id="leftlist">
-      <tbody id="flextable">
+      <tbody class="flextable">
         <tr>
           <th>Games :</th>
           <td><a href="/demineur">Démineur</a></td>
         </tr>
       </tbody>
     </table>
-    <div id="center">
+    <div class="center">
       <div id="game">
         {{{ body }}}
       </div>
     </div>
     <div id="rightdiv">
       <table id="highscores">
-        <tbody id="flextable">
+        <tbody class="flextable">
           <tr>
             <th>Highscores :</th>
             <td>I/ Me</td>
@@ -34,11 +37,11 @@
           </tr>
         </tbody>
       </table>
-      <div id="spacer"></div>
+      <div class="spacer"></div>
       <div id="def">
         <h3>{{ title }}</h3>
-        <p id="rules">This is the homepage of this website, there nothing to see here.</p
-        </div>
+        {{{ rules }}}
+      </div>
     </div>
   </main>
   <script src="{{ script }}"></script>
