@@ -2,9 +2,6 @@
   background-color: black;
 
 }
-#theOne {
-  background-color: Crimson;
-}
 
 .cell {
   background-color: grey;
@@ -17,8 +14,11 @@
   background: lightgrey;
 }
 
+#theOne {
+  background-color: pink;
+}
 #bomb {
-  background-color: Firebrick;
+  background-color: purple;
 }
 
 #loose {
@@ -38,16 +38,16 @@
 
 table.menu{
   display: flex;
+  width: 60px;
   background-color: black;
-  text-decoration: blue;
 }
 
 .menu .counter{
-
+  color: red;
 }
 
 .menu .timer{
-
+  color: blue;
 }
 
 .menu .empty{
