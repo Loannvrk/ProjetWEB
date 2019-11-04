@@ -32,10 +32,6 @@
 #flag {
   background-color: yellow;
 }
-#questionMark {
-  background-color: brown;
-}
-
 table.menu{
   display: flex;
   width: 60px;

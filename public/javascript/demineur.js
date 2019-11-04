@@ -9,7 +9,7 @@ gameTable.oncontextmenu = function(){
   return false;
 } // Block the right-click menu on the game
 var menu = document.querySelector(".menu");
-const ratio = 0.02;// Ratio de bombes/cases
+const ratio = 0.2;// Ratio de bombes/cases
 var size;
 var bombs;// Nombre de bombes
 var firstClick;
@@ -148,7 +148,7 @@ function playOnCell(x,y){
     },1000)
   }
   //On all clicks
-  if(htmlBoard[x].childNodes[y].getAttribute("id")!="flag" && htmlBoard[x].childNodes[y].getAttribute("id")!="questionMark" && htmlBoard[x].childNodes[y].getAttribute("id")!="bloque" && htmlBoard[x].childNodes[y].getAttribute("id")!="visible"){
+  if(htmlBoard[x].childNodes[y].getAttribute("id")!="flag" && htmlBoard[x].childNodes[y].getAttribute("id")!="bloque" && htmlBoard[x].childNodes[y].getAttribute("id")!="visible"){
     switch (board[x][y]){
       case -1 :
         lost(x,y);
@@ -176,10 +176,12 @@ function defCell(x,y){
       break;
     case "flag" :
       htmlBoard[x].childNodes[y].setAttribute("id","questionMark");
+      htmlBoard[x].childNodes[y].innerText = "?";
       bombs++;
       break;
     case "questionMark" :
       htmlBoard[x].childNodes[y].setAttribute("id","");
+      htmlBoard[x].childNodes[y].innerText = "";
       break;
   }
   cpt.innerText = bombs;
