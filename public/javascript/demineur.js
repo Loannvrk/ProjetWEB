@@ -154,11 +154,16 @@ function playOnCell(x,y){
         lost(x,y);
         return;
       case 0 :
-        caseVide(x,y);
+        emptyCell(x,y);
         break;
       default :
-        htmlBoard[x].childNodes[y].innerText = board[x][y];
-        htmlBoard[x].childNodes[y].setAttribute("id","visible");
+        if(htmlBoard[x].childNodes[y].getAttribute("id")=="visible"){
+          numCell(x,y);
+        }
+        else{
+          htmlBoard[x].childNodes[y].innerText = board[x][y];
+          htmlBoard[x].childNodes[y].setAttribute("id","visible");
+        }
     }
     win();
   }
@@ -188,20 +193,37 @@ function defCell(x,y){
 }
 
 // Dévoile les cases adjacentes à la case vide (x,y)
-function caseVide(x,y){
+function emptyCell(x,y){
   htmlBoard[x].childNodes[y].setAttribute("id","visible");
-  var limit = board.length;
   for(var i = x-1 ; i <= x+1; i++){
     for(var j = y-1; j <= y+1; j++){
-        if( (i >= 0 && i < limit) && (j >= 0 && j < limit) && (htmlBoard[i].childNodes[j].getAttribute("id") != "visible") ){
+        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (htmlBoard[i].childNodes[j].getAttribute("id") != "visible") ){
           htmlBoard[i].childNodes[j].setAttribute("id","visible");
           switch(board[i][j]){
             case 0 :
-              caseVide(i,j);
+              emptyCell(i,j);
               break;
             default :
               htmlBoard[i].childNodes[j].innerText = board[i][j];
         }
+      }
+    }
+  }
+}
+
+function numCell(x,y){
+  var flags = board[x][y];
+  for(var i = x-1 ; i <= x+1; i++){
+    for(var j = y-1; j <= y+1; j++){
+      if(i != x && j != y &&  htmlBoard[i].childNodes[j].getAttribute("id")=="flag"){
+        flags--;
+      }
+    }
+  }
+  if(flags<=0){
+    for(var i = x-1 ; i <= x+1; i++){
+      for(var j = y-1; j <= y+1; j++){
+        playOnCell(i,j);
       }
     }
   }
