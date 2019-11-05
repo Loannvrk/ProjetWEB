@@ -1,6 +1,6 @@
-td {
-  height: 50px;
-  width: 50px;
+#case {
+  height: 5px;
+  width: 5px;
   background-color: white;
   opacity: 0.8;
   padding: 10px;
@@ -17,8 +17,8 @@ td {
   position: static;
   border-style:none;
    border-radius: 5px;
-    height: 440px;
-    width: 440px;
+    height: 500px;
+    width: 500px;
         
 }
 
