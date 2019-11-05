@@ -1,23 +1,24 @@
 //******************************************************** Global var/const ********************************************************
 
+var menu = document.querySelector(".menu");
+var cpt = document.querySelector(".counter");
+var timerHTML = document.querySelector(".timer");
+var gameTable = document.querySelector(".gameTable");// Ecran de jeu
+gameTable.oncontextmenu = false; // Block the right-click menu on the game
 
 var board=[];// Plateau contenant les éléments de jeu
 //(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var htmlBoard;
-var gameTable = document.querySelector(".gameTable");// Ecran de jeu
-gameTable.oncontextmenu = function(){
-  return false;
-} // Block the right-click menu on the game
-var menu = document.querySelector(".menu");
-const ratio = 0.2;// Ratio de bombes/cases
+//gameTable.ondblclick = ()=>false;
 var size;
 var bombs;// Nombre de bombes
 var firstClick;
-var cpt = document.querySelector(".counter");
-var timerHTML = document.querySelector(".timer");
 var timer;
 var time;
-//********************************************************** Handler function **********************************************************
+const ratio = 0.2;// Ratio de bombes/cases
+/***********************************************************************
+                            Handler functions
+************************************************************************/
 
 function playOnCellHandler(x,y){
   /*void -> function*/
@@ -29,39 +30,41 @@ function defCellHandler(x,y){
   return ()=>defCell(x,y);
 }
 
-//********************************************************** Init function *************************************************************
+function spreadCellHandler(x,y){
+  /*void -> function*/
+  return ()=>spreadCell(x,y);
+}
+
+/***********************************************************************
+                            Init functions
+************************************************************************/
 
 function initGame(x,y){
   var counter = bombs;
   // Mise en place du plateau et du plateau visible par l'utilisateur
   do{
     for(var i=0;i<size;i++){
-      if(firstClick){
+      if(firstClick)
         board[i]=[];
-      }
       for(var j=0;j<size;j++){
         if(Math.random() < ratio && counter>0 && ( (i<x-1 || i>x+1) || (j<y-1 || j>y+1) )){
           board[i][j]=-1;
           counter--;
         }
-        else if(firstClick){
+        else if(firstClick)
           board[i][j]=0;
-        }
       }
     }
     firstClick = false;
   }while(counter>0);
   // Détection du nombre de bombes sur les cases adjacentes
-  for(var i=0;i<size;i++){
-    for(var j=0;j<size;j++){
-      if( board[i][j] != (-1) ){
+  for(var i=0;i<size;i++)
+    for(var j=0;j<size;j++)
+      if( board[i][j] != (-1) )
         detectionBomb(i,j,size);
-      }
-    }
-  }
 }
 
-// Initialise le plateau de jeu en HTMl
+// Initialize the graphic board
 function initInnerHTML() {
   /*HTMLElement * int -> HTMLElement[]
     creates cells to an empty <table>*/
@@ -80,13 +83,11 @@ function initInnerHTML() {
 }
 
 function initClickListeners(){
-  var cell;
-  for (var i=0; i<htmlBoard.length; i++) {
-    cell = htmlBoard[i].childNodes;
-    for(var j=0; j<cell.length;j++){
+  for (var i=0; i<size; i++) {
+    for(var j=0; j<size;j++){
       //Create listeners to play
-      cell[j].addEventListener("click",playOnCellHandler(i,j));
-      cell[j].addEventListener("contextmenu",defCellHandler(i,j));
+      cell(i,j).onclick = playOnCellHandler(i,j);
+      cell(i,j).oncontextmenu = defCellHandler(i,j);
     }
   }
 }
@@ -103,19 +104,18 @@ function Init(s) {
   initClickListeners();                    // Listener to start the game (first click init the game)
 }
 
-//************************************************************* Functions ****************************************************************
+/***********************************************************************
+                             Functions
+************************************************************************/
 
 // Compte le nombre de bombes sur les cases adjacentes à la case (x,y)
 function detectionBomb(x,y,size){
   var nbBomb=0;
   // Comptage du nombre de bombes sur cases adjacentes
-  for(var i=x-1;i<=x+1;i++){
-    for(var j=y-1;j<=y+1;j++){
-      if( (i >= 0 && i < size) && (j >= 0 && j < size) && (board[i][j] == -1)){
+  for(var i=x-1;i<=x+1;i++)
+    for(var j=y-1;j<=y+1;j++)
+      if( (i >= 0 && i < size) && (j >= 0 && j < size) && (board[i][j] == -1))
         nbBomb++;
-      }
-    }
-  }
   board[x][y]=nbBomb;
 }
 
@@ -130,25 +130,22 @@ function playOnCell(x,y){
       var sec = Math.floor(time%60);
       var min = Math.floor((time%(60*60))/60);
       if(min<10){
-        if(sec<10){
+        if(sec<10)
           timerHTML.innerText = "0"+min+":0"+sec;
-        }
-        else{
+        else
           timerHTML.innerText = "0"+min+":"+sec;
-        }
       }
       else{
-        if(sec<10){
+        if(sec<10)
           timerHTML.innerText = min+":0"+sec;
-        }
-        else{
+        else
           timerHTML.innerText = min+":"+sec;
-        }
       }
     },1000)
   }
   //On all clicks
-  if(htmlBoard[x].childNodes[y].getAttribute("id")!="flag" && htmlBoard[x].childNodes[y].getAttribute("id")!="bloque" && htmlBoard[x].childNodes[y].getAttribute("id")!="visible"){
+  if(cell(x,y).getAttribute("id")!="flag" && cell(x,y).getAttribute("id")!="bloque" && cell(x,y).getAttribute("id")!="visible"){
+    cell(x,y).setAttribute("id","visible");
     switch (board[x][y]){
       case -1 :
         lost(x,y);
@@ -157,36 +154,50 @@ function playOnCell(x,y){
         emptyCell(x,y);
         break;
       default :
-        if(htmlBoard[x].childNodes[y].getAttribute("id")=="visible"){
-          numCell(x,y);
-        }
-        else{
-          htmlBoard[x].childNodes[y].innerText = board[x][y];
-          htmlBoard[x].childNodes[y].setAttribute("id","visible");
-        }
+        cell(x,y).innerText = board[x][y];
+        cell(x,y).ondblclick = spreadCellHandler(x,y);
     }
     win();
   }
 }
 
+function spreadCell(x,y){
+  var flags = board[x][y];
+  if(flags==0)
+    return;
+  for(var i=x-1;i<=x+1;i++)
+    for(var j=y-1;j<=y+1;j++)
+      if((i >= 0 && i < size) && (j >= 0 && j < size) && cell(i,j).getAttribute("id")=="flag" )
+        flags--;
+  if(flags<1)
+    for(var i=x-1;i<=x+1;i++)
+      for(var j=y-1;j<=y+1;j++)
+        if((i >= 0 && i < size) && (j >= 0 && j < size))
+          playOnCell(i,j);
+}
+
 function defCell(x,y){
-  switch(htmlBoard[x].childNodes[y].getAttribute("id")){
+  switch(cell(x,y).getAttribute("id")){
     case null :
-      htmlBoard[x].childNodes[y].setAttribute("id","flag");
+      cell(x,y).setAttribute("id","flag");
       bombs--;
       break;
     case "" :
-      htmlBoard[x].childNodes[y].setAttribute("id","flag");
+      cell(x,y).setAttribute("id","flag");
       bombs--;
       break;
     case "flag" :
-      htmlBoard[x].childNodes[y].setAttribute("id","questionMark");
-      htmlBoard[x].childNodes[y].innerText = "?";
+      cell(x,y).setAttribute("id","questionMark");
+      cell(x,y).innerText = "?";
+      cell(x,y).onclick = false;
+      cell(x,y).ondblclick = playOnCellHandler(x,y);
       bombs++;
       break;
     case "questionMark" :
-      htmlBoard[x].childNodes[y].setAttribute("id","");
-      htmlBoard[x].childNodes[y].innerText = "";
+      cell(x,y).setAttribute("id","");
+      cell(x,y).innerText = "";
+      cell(x,y).ondblclick = false;
+      cell(x,y).onclick = playOnCellHandler(x,y);
       break;
   }
   cpt.innerText = bombs;
@@ -194,73 +205,45 @@ function defCell(x,y){
 
 // Dévoile les cases adjacentes à la case vide (x,y)
 function emptyCell(x,y){
-  htmlBoard[x].childNodes[y].setAttribute("id","visible");
-  for(var i = x-1 ; i <= x+1; i++){
-    for(var j = y-1; j <= y+1; j++){
-        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (htmlBoard[i].childNodes[j].getAttribute("id") != "visible") ){
-          htmlBoard[i].childNodes[j].setAttribute("id","visible");
-          switch(board[i][j]){
-            case 0 :
-              emptyCell(i,j);
-              break;
-            default :
-              htmlBoard[i].childNodes[j].innerText = board[i][j];
-        }
-      }
-    }
-  }
+  for(var i = x-1 ; i <= x+1; i++)
+    for(var j = y-1; j <= y+1; j++)
+        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (cell(i,j).getAttribute("id") != "visible") )
+          playOnCell(i,j);
 }
 
-function numCell(x,y){
-  var flags = board[x][y];
-  for(var i = x-1 ; i <= x+1; i++){
-    for(var j = y-1; j <= y+1; j++){
-      if(i != x && j != y &&  htmlBoard[i].childNodes[j].getAttribute("id")=="flag"){
-        flags--;
-      }
-    }
-  }
-  if(flags<=0){
-    for(var i = x-1 ; i <= x+1; i++){
-      for(var j = y-1; j <= y+1; j++){
-        playOnCell(i,j);
-      }
-    }
-  }
+function cell(x,y){
+  return htmlBoard[x].childNodes[y];
 }
 
 function lost(x,y){
   clearInterval(timer);
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++){
-      if(htmlBoard[i].childNodes[j].getAttribute("id")!="visible")
-        htmlBoard[i].childNodes[j].setAttribute("id","bloque"); // Empêche de continuer à jouer
+      if(cell(i,j).getAttribute("id")!="visible")
+        cell(i,j).setAttribute("id","bloque"); // Empêche de continuer à jouer
       if(board[i][j]==-1)
-        htmlBoard[i].childNodes[j].setAttribute("id","bomb");// Affiche toutes les bombess
+        cell(i,j).setAttribute("id","bomb");// Affiche toutes les bombess
     }
   }
-  htmlBoard[x].childNodes[y].setAttribute("id","theOne");
+  cell(x,y).setAttribute("id","theOne");
   gameTable.setAttribute("id","loose");
 }
 
 function win(){
-  for(var i=0;i<size;i++){
-    for(var j=0;j<size;j++){
-      if((htmlBoard[i].childNodes[j].getAttribute("id")=="" || htmlBoard[i].childNodes[j].getAttribute("id")==null) && board[i][j]!=-1){
+  for(var i=0;i<size;i++)
+    for(var j=0;j<size;j++)
+      if((cell(i,j).getAttribute("id")=="" || cell(i,j).getAttribute("id")==null) && board[i][j]!=-1)
         return ;
-      }
-    }
-  }
-  for(var i=0;i<size;i++){
-    for(var j=0;j<size;j++){
+  for(var i=0;i<size;i++)
+    for(var j=0;j<size;j++)
       if(board[i][j]==-1)
-        htmlBoard[i].childNodes[j].setAttribute("id","bloque");// Bloque le plateau
-    }
-  }
+        cell(i,j).setAttribute("id","bloque");// Bloque le plateau
   clearInterval(timer);
   gameTable.setAttribute("id","win");
 }
 
-//************************************************************** Start game **************************************************************
+/***********************************************************************
+                              Start game
+************************************************************************/
 
 Init(10);
