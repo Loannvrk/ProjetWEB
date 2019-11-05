@@ -13,6 +13,10 @@ const ratio = 0.2;// Ratio de bombes/cases
 var size;
 var bombs;// Nombre de bombes
 var firstClick;
+var cpt = document.querySelector(".counter");
+var timerHTML = document.querySelector(".timer");
+var timer;
+var time;
 //********************************************************** Handler function **********************************************************
 
 function playOnCellHandler(x,y){
@@ -36,7 +40,7 @@ function initGame(x,y){
         board[i]=[];
       }
       for(var j=0;j<size;j++){
-        if(Math.random() < ratio && bombs>0 && ( (i<x-1 || i>x+1) || (j<y-1 || j>y+1) )){
+        if(Math.random() < ratio && counter>0 && ( (i<x-1 || i>x+1) || (j<y-1 || j>y+1) )){
           board[i][j]=-1;
           counter--;
         }
@@ -91,7 +95,9 @@ function Init(s) {
   //Initialise certaines var globales
   size = s;
   bombs = Math.round(size*size*ratio);
+  cpt.innerText = bombs;
   firstClick=true;
+  time=0;
   /*int -> HTMLElement[]*/
   initInnerHTML();                         // Create the HTML board
   initClickListeners();                    // Listener to start the game (first click init the game)
@@ -114,21 +120,50 @@ function detectionBomb(x,y,size){
 }
 
 function playOnCell(x,y){
+  //On first click
   if(firstClick){
+    //Create the board
     initGame(x,y);
+    //Create a timer
+    timer = setInterval(function(){
+      time++;
+      var sec = Math.floor(time%60);
+      var min = Math.floor((time%(60*60))/60);
+      if(min<10){
+        if(sec<10){
+          timerHTML.innerText = "0"+min+":0"+sec;
+        }
+        else{
+          timerHTML.innerText = "0"+min+":"+sec;
+        }
+      }
+      else{
+        if(sec<10){
+          timerHTML.innerText = min+":0"+sec;
+        }
+        else{
+          timerHTML.innerText = min+":"+sec;
+        }
+      }
+    },1000)
   }
-  if(htmlBoard[x].childNodes[y].getAttribute("id")!="flag" || htmlBoard[x].childNodes[y].getAttribute("id")!="questionMark" || htmlBoard[x].childNodes[y].getAttribute("id")!="bloque"){
+  //On all clicks
+  if(htmlBoard[x].childNodes[y].getAttribute("id")!="flag" && htmlBoard[x].childNodes[y].getAttribute("id")!="bloque" && htmlBoard[x].childNodes[y].getAttribute("id")!="visible"){
     switch (board[x][y]){
       case -1 :
-        htmlBoard[x].childNodes[y].setAttribute("id","theOne");
-        lost();
+        lost(x,y);
         return;
       case 0 :
-        caseVide(x,y);
+        emptyCell(x,y);
         break;
       default :
-        htmlBoard[x].childNodes[y].innerText = board[x][y];
-        htmlBoard[x].childNodes[y].setAttribute("id","visible");
+        if(htmlBoard[x].childNodes[y].getAttribute("id")=="visible"){
+          numCell(x,y);
+        }
+        else{
+          htmlBoard[x].childNodes[y].innerText = board[x][y];
+          htmlBoard[x].childNodes[y].setAttribute("id","visible");
+        }
     }
     win();
   }
@@ -146,25 +181,27 @@ function defCell(x,y){
       break;
     case "flag" :
       htmlBoard[x].childNodes[y].setAttribute("id","questionMark");
+      htmlBoard[x].childNodes[y].innerText = "?";
       bombs++;
       break;
     case "questionMark" :
       htmlBoard[x].childNodes[y].setAttribute("id","");
+      htmlBoard[x].childNodes[y].innerText = "";
       break;
   }
+  cpt.innerText = bombs;
 }
 
 // Dévoile les cases adjacentes à la case vide (x,y)
-function caseVide(x,y){
+function emptyCell(x,y){
   htmlBoard[x].childNodes[y].setAttribute("id","visible");
-  var limit = board.length;
   for(var i = x-1 ; i <= x+1; i++){
     for(var j = y-1; j <= y+1; j++){
-        if( (i >= 0 && i < limit) && (j >= 0 && j < limit) && (htmlBoard[i].childNodes[j].getAttribute("id") != "visible") ){
+        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (htmlBoard[i].childNodes[j].getAttribute("id") != "visible") ){
           htmlBoard[i].childNodes[j].setAttribute("id","visible");
           switch(board[i][j]){
             case 0 :
-              caseVide(i,j);
+              emptyCell(i,j);
               break;
             default :
               htmlBoard[i].childNodes[j].innerText = board[i][j];
@@ -174,31 +211,53 @@ function caseVide(x,y){
   }
 }
 
-function lost(){
+function numCell(x,y){
+  var flags = board[x][y];
+  for(var i = x-1 ; i <= x+1; i++){
+    for(var j = y-1; j <= y+1; j++){
+      if(i != x && j != y &&  htmlBoard[i].childNodes[j].getAttribute("id")=="flag"){
+        flags--;
+      }
+    }
+  }
+  if(flags<=0){
+    for(var i = x-1 ; i <= x+1; i++){
+      for(var j = y-1; j <= y+1; j++){
+        playOnCell(i,j);
+      }
+    }
+  }
+}
+
+function lost(x,y){
+  clearInterval(timer);
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++){
       if(htmlBoard[i].childNodes[j].getAttribute("id")!="visible")
         htmlBoard[i].childNodes[j].setAttribute("id","bloque"); // Empêche de continuer à jouer
       if(board[i][j]==-1)
-        htmlBoard[i].childNodes[j].setAttribute("id","bomb");// Affiche toutes les bombes
+        htmlBoard[i].childNodes[j].setAttribute("id","bomb");// Affiche toutes les bombess
     }
   }
+  htmlBoard[x].childNodes[y].setAttribute("id","theOne");
   gameTable.setAttribute("id","loose");
 }
 
 function win(){
   for(var i=0;i<size;i++){
     for(var j=0;j<size;j++){
-      if(htmlBoard[i].childNodes[j].getAttribute("id")==null && board[i][j]!=-1){
+      if((htmlBoard[i].childNodes[j].getAttribute("id")=="" || htmlBoard[i].childNodes[j].getAttribute("id")==null) && board[i][j]!=-1){
         return ;
       }
     }
   }
   for(var i=0;i<size;i++){
     for(var j=0;j<size;j++){
-      htmlBoard[i].childNodes[j].getAttribute("id")=="visible";// Bloque le plateau
+      if(board[i][j]==-1)
+        htmlBoard[i].childNodes[j].setAttribute("id","bloque");// Bloque le plateau
     }
   }
+  clearInterval(timer);
   gameTable.setAttribute("id","win");
 }
 

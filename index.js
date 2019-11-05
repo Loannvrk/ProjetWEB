@@ -41,6 +41,16 @@ app.get('/glisseur', function (req, res) {
   res.render("glisseur.hbs",data);
 });
 
+app.get('/faraan', function (req, res) {
+  let data = {
+    title: 'faraan',
+    css: './css/faraan.css',
+    script: './javascript/faraan.js',
+    rules: '<p>empty</p>'
+  }
+  res.render("faraan.hbs",data);
+});
+
 app.get('/*', function (req, res) {
   res.sendStatus(404);
 });
