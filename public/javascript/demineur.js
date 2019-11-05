@@ -4,8 +4,7 @@ var menu = document.querySelector(".menu");
 var cpt = document.querySelector(".counter");
 var timerHTML = document.querySelector(".timer");
 var gameTable = document.querySelector(".gameTable");// Ecran de jeu
-gameTable.oncontextmenu = false; // Block the right-click menu on the game
-
+gameTable.oncontextmenu = ()=>false; // Block the right-click menu on the game
 var board=[];// Plateau contenant les éléments de jeu
 //(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var htmlBoard;
