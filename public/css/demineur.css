@@ -32,6 +32,10 @@
 #flag {
   background-color: yellow;
 }
+#blockedflag {
+  background-color: yellow;
+}
+
 table.menu{
   display: flex;
   width: 60px;

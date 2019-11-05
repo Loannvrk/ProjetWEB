@@ -1,4 +1,6 @@
-//******************************************************** Global var/const ********************************************************
+/***********************************************************************
+                            Gloabal var
+************************************************************************/
 
 var menu = document.querySelector(".menu");
 var cpt = document.querySelector(".counter");
@@ -14,7 +16,7 @@ var bombs;// Nombre de bombes
 var firstClick;
 var timer;
 var time;
-const ratio = 0.2;// Ratio de bombes/cases
+const ratio = 0.15;// Ratio de bombes/cases
 /***********************************************************************
                             Handler functions
 ************************************************************************/
@@ -81,6 +83,7 @@ function initInnerHTML() {
   htmlBoard = document.querySelectorAll("tr.ligne");
 }
 
+//Itinialize listeners
 function initClickListeners(){
   for (var i=0; i<size; i++) {
     for(var j=0; j<size;j++){
@@ -235,8 +238,12 @@ function win(){
         return ;
   for(var i=0;i<size;i++)
     for(var j=0;j<size;j++)
-      if(board[i][j]==-1)
-        cell(i,j).setAttribute("id","bloque");// Bloque le plateau
+      if(board[i][j]==-1){
+        if(cell(i,j).getAttribute("id")=="flag")
+          cell(i,j).setAttribute("id","blockedflag");
+        else
+          cell(i,j).setAttribute("id","blocked"); // Bloque le plateau
+      }
   clearInterval(timer);
   gameTable.setAttribute("id","win");
 }
@@ -245,4 +252,4 @@ function win(){
                               Start game
 ************************************************************************/
 
-Init(10);
+Init(20);
