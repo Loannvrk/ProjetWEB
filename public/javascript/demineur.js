@@ -181,7 +181,7 @@ function spreadCell(x,y){
 }
 
 function defCell(x,y){
-  if(gameTable.id=="win" || gameTable.id=="loose")
+  if(gameTable.id=="win" || gameTable.id=="loose" || cell(x,y).className=="visible")
     return;
   switch(cell(x,y).id){
     case "" :
@@ -223,9 +223,9 @@ function lost(x,y){
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++)
       if(board[i][j]==-1)
-        cell(i,j).innerHTML = '<svg class="fas fa-bomb"></svg>';// Affiche toutes les bombess
+        cell(i,j).innerHTML = '<svg class="fas fa-bomb"></svg>';//Affiche toutes les bombes
   }
-  cell(x,y).id = "theOne";
+  cell(x,y).id = "bomb";
   gameTable.id = "loose";
 }
 
