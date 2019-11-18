@@ -17,6 +17,7 @@ var firstClick;
 var timer;
 var time;
 const ratio = 0.15;// Ratio de bombes/cases
+var colorTab = ["blue","green","red","purple","HotPink","OrangeRed"]
 /***********************************************************************
                             Handler functions
 ************************************************************************/
@@ -146,8 +147,8 @@ function playOnCell(x,y){
     },1000)
   }
   //On all clicks
-  if(cell(x,y).getAttribute("id")!="flag" && cell(x,y).getAttribute("id")!="bloque" && cell(x,y).getAttribute("id")!="visible"){
-    cell(x,y).setAttribute("id","visible");
+  if(gameTable.id!="loose" && gameTable.id!="win" && cell(x,y).id!="flag" && cell(x,y).className!="visible"){
+    cell(x,y).className = "visible";
     switch (board[x][y]){
       case -1 :
         lost(x,y);
@@ -157,6 +158,7 @@ function playOnCell(x,y){
         break;
       default :
         cell(x,y).innerText = board[x][y];
+        cell(x,y).style.color = colorTab[board[x][y]-1];
         cell(x,y).ondblclick = spreadCellHandler(x,y);
     }
     win();
@@ -169,7 +171,7 @@ function spreadCell(x,y){
     return;
   for(var i=x-1;i<=x+1;i++)
     for(var j=y-1;j<=y+1;j++)
-      if((i >= 0 && i < size) && (j >= 0 && j < size) && cell(i,j).getAttribute("id")=="flag" )
+      if((i >= 0 && i < size) && (j >= 0 && j < size) && cell(i,j).id=="flag" )
         flags--;
   if(flags<1)
     for(var i=x-1;i<=x+1;i++)
@@ -179,24 +181,23 @@ function spreadCell(x,y){
 }
 
 function defCell(x,y){
-  switch(cell(x,y).getAttribute("id")){
-    case null :
-      cell(x,y).setAttribute("id","flag");
-      bombs--;
-      break;
+  if(gameTable.id=="win" || gameTable.id=="loose")
+    return;
+  switch(cell(x,y).id){
     case "" :
-      cell(x,y).setAttribute("id","flag");
+      cell(x,y).id = "flag";
+      cell(x,y).innerHTML='<i class="far fa-flag"> <path fill="red" ></path> </i>';
       bombs--;
       break;
     case "flag" :
-      cell(x,y).setAttribute("id","questionMark");
+      cell(x,y).id = "mark";
       cell(x,y).innerText = "?";
       cell(x,y).onclick = false;
       cell(x,y).ondblclick = playOnCellHandler(x,y);
       bombs++;
       break;
-    case "questionMark" :
-      cell(x,y).setAttribute("id","");
+    case "mark" :
+      cell(x,y).id = "";
       cell(x,y).innerText = "";
       cell(x,y).ondblclick = false;
       cell(x,y).onclick = playOnCellHandler(x,y);
@@ -209,7 +210,7 @@ function defCell(x,y){
 function emptyCell(x,y){
   for(var i = x-1 ; i <= x+1; i++)
     for(var j = y-1; j <= y+1; j++)
-        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (cell(i,j).getAttribute("id") != "visible") )
+        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (cell(i,j).className != "visible") )
           playOnCell(i,j);
 }
 
@@ -220,36 +221,25 @@ function cell(x,y){
 function lost(x,y){
   clearInterval(timer);
   for(var i=0;i<board.length;i++){
-    for(var j=0;j<board[i].length;j++){
-      if(cell(i,j).getAttribute("id")!="visible")
-        cell(i,j).setAttribute("id","bloque"); // Empêche de continuer à jouer
+    for(var j=0;j<board[i].length;j++)
       if(board[i][j]==-1)
-        cell(i,j).setAttribute("id","bomb");// Affiche toutes les bombess
-    }
+        cell(i,j).innerHTML = '<svg class="fas fa-bomb"></svg>';// Affiche toutes les bombess
   }
-  cell(x,y).setAttribute("id","theOne");
-  gameTable.setAttribute("id","loose");
+  cell(x,y).id = "theOne";
+  gameTable.id = "loose";
 }
 
 function win(){
   for(var i=0;i<size;i++)
     for(var j=0;j<size;j++)
-      if((cell(i,j).getAttribute("id")=="" || cell(i,j).getAttribute("id")==null) && board[i][j]!=-1)
+      if(cell(i,j).id=="" && board[i][j]!=-1)
         return ;
-  for(var i=0;i<size;i++)
-    for(var j=0;j<size;j++)
-      if(board[i][j]==-1){
-        if(cell(i,j).getAttribute("id")=="flag")
-          cell(i,j).setAttribute("id","blockedflag");
-        else
-          cell(i,j).setAttribute("id","blocked"); // Bloque le plateau
-      }
   clearInterval(timer);
-  gameTable.setAttribute("id","win");
+  gameTable.id = "win";
 }
 
 /***********************************************************************
                               Start game
 ************************************************************************/
 
-Init(20);
+Init(15);

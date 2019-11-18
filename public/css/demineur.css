@@ -1,6 +1,5 @@
 .gameTable {
   background-color: black;
-
 }
 
 .cell {
@@ -10,15 +9,22 @@
   height: 20px;
 }
 
-#visible {
+.rules {
+  display: inline-block;
+  background-color: grey;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  border-color: black;
+  border-width: 50px;
+}
+
+.visible {
   background: lightgrey;
 }
 
 #theOne {
-  background-color: pink;
-}
-#bomb {
-  background-color: purple;
+  background-color: MediumVioletRed;
 }
 
 #loose {
@@ -30,10 +36,11 @@
 }
 
 #flag {
-  background-color: yellow;
+  color: FireBrick;
 }
-#blockedflag {
-  background-color: yellow;
+
+#mark {
+  color: DarkOrange;
 }
 
 table.menu{
@@ -42,12 +49,14 @@ table.menu{
   background-color: black;
 }
 
-.menu .counter{
+.counter{
   color: red;
+  font-weight: bold;
 }
 
-.menu .timer{
+.timer{
   color: blue;
+  font-weight: bold;
 }
 
 .menu .empty{

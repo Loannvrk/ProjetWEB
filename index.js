@@ -26,7 +26,7 @@ app.get('/demineur', function (req, res) {
     title: 'Demineur',
     css: './css/demineur.css',
     script: './javascript/demineur.js',
-    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> Clic gauche = dévoiler case <br> Clic droit = placer drapeau/"?" <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le compteur en haut à gauche indique le nombre de mines restantes</p>'
+    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> Clic gauche = <div class="rules" ></div> -> <div class="rules visible"></div> <br> Clic droit = <svg class="far fa-flag" id="flag" ></svg>/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>'
   }
   res.render("demineur.hbs",data);
 });
