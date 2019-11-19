@@ -1,8 +1,10 @@
 const express = require('express');
 const hbs = require('express-handlebars');
 const app = express();
-
 app.use(express.static('public'));
+app.use('/highscore',require('./server/highscoreRequest.js'));
+
+
 
 app.engine('hbs', hbs({
   extname: 'hbs',
@@ -16,7 +18,10 @@ app.get('/', function (req, res) {
     title: 'Homepage',
     css: './css/test.css',
     script: '',
-    rules: '<p>This is the homepage of this website, not much to see here</p>'
+    rules: '<p>This is the homepage of this website, not much to see here</p>',
+    first: 'Me',
+    second: 'Me',
+    third: 'Me'
   }
   res.render("homepage.hbs",data);
 });
@@ -26,7 +31,7 @@ app.get('/demineur', function (req, res) {
     title: 'Demineur',
     css: './css/demineur.css',
     script: './javascript/demineur.js',
-    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="logo" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="logo" src="./images/rightClic.svg"/> = <img class="logo" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>'
+    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="items" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>'
   }
   res.render("demineur.hbs",data);
 });
@@ -54,6 +59,7 @@ app.get('/faraan', function (req, res) {
 app.get('/*', function (req, res) {
   res.sendStatus(404);
 });
+
 
 app.listen(3000, function () {
   console.log('listening on port 3000');

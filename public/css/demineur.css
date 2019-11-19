@@ -12,12 +12,16 @@
 .rules {
   display: inline-block;
   background-color: grey;
-  cursor: pointer;
   width: 15px;
   height: 15px;
   border-color: black;
   border-width: 2px;
   border-style: solid;
+}
+
+.items {
+  width: 16px;
+  height: 16px;
 }
 
 .visible {
@@ -34,10 +38,6 @@
 
 #win {
   background-color: green;
-}
-
-#flag {
-  color: FireBrick;
 }
 
 #mark {

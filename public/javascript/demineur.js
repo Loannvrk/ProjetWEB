@@ -1,7 +1,6 @@
 /***********************************************************************
                             Gloabal var
 ************************************************************************/
-
 var menu = document.querySelector(".menu");
 var cpt = document.querySelector(".counter");
 var timerHTML = document.querySelector(".timer");
@@ -10,13 +9,12 @@ gameTable.oncontextmenu = ()=>false; // Block the right-click menu on the game
 var board=[];// Plateau contenant les éléments de jeu
 //(-1 : bombe)(0 : case vide)(x>0 : case proche de x bombes)
 var htmlBoard;
-//gameTable.ondblclick = ()=>false;
 var size;
 var bombs;// Nombre de bombes
 var firstClick;
 var timer;
 var time;
-const ratio = 0.15;// Ratio de bombes/cases
+const ratio = 0.015;// Ratio de bombes/cases
 var colorTab = ["blue","green","red","purple","HotPink","OrangeRed"]
 /***********************************************************************
                             Handler functions
@@ -42,7 +40,7 @@ function spreadCellHandler(x,y){
 ************************************************************************/
 
 function initGame(x,y){
-  var counter = bombs;
+  let counter = bombs;
   // Mise en place du plateau et du plateau visible par l'utilisateur
   do{
     for(var i=0;i<size;i++){
@@ -147,8 +145,8 @@ function playOnCell(x,y){
     },1000)
   }
   //On all clicks
-  if(gameTable.id!="loose" && gameTable.id!="win" && cell(x,y).id!="flag" && cell(x,y).className!="visible"){
-    cell(x,y).className = "visible";
+  if(gameTable.id!="loose" && gameTable.id!="win" && cell(x,y).id!="flag" && cell(x,y).className!="cell visible"){
+    cell(x,y).className = "cell visible";
     switch (board[x][y]){
       case -1 :
         lost(x,y);
@@ -160,8 +158,8 @@ function playOnCell(x,y){
         cell(x,y).innerText = board[x][y];
         cell(x,y).style.color = colorTab[board[x][y]-1];
         cell(x,y).ondblclick = spreadCellHandler(x,y);
+        win();
     }
-    win();
   }
 }
 
@@ -181,12 +179,12 @@ function spreadCell(x,y){
 }
 
 function defCell(x,y){
-  if(gameTable.id=="win" || gameTable.id=="loose" || cell(x,y).className=="visible")
+  if(gameTable.id=="win" || gameTable.id=="loose" || cell(x,y).className=="cell visible")
     return;
   switch(cell(x,y).id){
     case "" :
       cell(x,y).id = "flag";
-      cell(x,y).innerHTML='<i class="far fa-flag"> <path fill="red" ></path> </i>';
+      cell(x,y).innerHTML='<img src="./images/flag.svg" class="items"/>';
       bombs--;
       break;
     case "flag" :
@@ -210,7 +208,7 @@ function defCell(x,y){
 function emptyCell(x,y){
   for(var i = x-1 ; i <= x+1; i++)
     for(var j = y-1; j <= y+1; j++)
-        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (cell(i,j).className != "visible") )
+        if( (i >= 0 && i < size) && (j >= 0 && j < size) && (cell(i,j).className != "cell visible") )
           playOnCell(i,j);
 }
 
@@ -223,7 +221,7 @@ function lost(x,y){
   for(var i=0;i<board.length;i++){
     for(var j=0;j<board[i].length;j++)
       if(board[i][j]==-1)
-        cell(i,j).innerHTML = '<svg class="fas fa-bomb"></svg>';//Affiche toutes les bombes
+        cell(i,j).innerHTML = '<img src="./images/bomb.svg" class="items"/>';//Affiche toutes les bombes
   }
   cell(x,y).id = "bomb";
   gameTable.id = "loose";
@@ -232,10 +230,14 @@ function lost(x,y){
 function win(){
   for(var i=0;i<size;i++)
     for(var j=0;j<size;j++)
-      if(cell(i,j).id=="" && board[i][j]!=-1)
-        return ;
+      if(cell(i,j).className=="cell" && board[i][j]!=-1)
+        return;
   clearInterval(timer);
   gameTable.id = "win";
+  var name = "Yura";
+  ajax.post("/highscore/demineur/"+name+"/"+time,time,function(res){},function(){
+    console.log("Erreur lors du post")
+  });
 }
 
 /***********************************************************************
