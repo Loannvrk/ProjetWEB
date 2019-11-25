@@ -1,25 +1,25 @@
 const express = require('express');
-const app = express();
 const fs = require('fs');
 const router = express.Router();
 
-app.use(express.static('public'));
-
-app.use(express.urlencoded({extended: false}));
-
-router.post('/:game/:name/:score',function(req,res){
-  let newScore = req.params.score;
-  let game = req.params.game;
+router.post('/:game',function(req,res){
+  let newScore = req.body.time;
+  let file = req.params.game+".txt";
   let score = [];
-  fs.readFile("./data/"+game+".txt","utf8",function(err,highscore){
+  fs.readFile("./data/demineur.txt","utf8",function(err,highscore){
+    if(err) console.log(err);
     highscore = highscore.split("\n");
     highscore.forEach(function(item){
       score = score.concat(item.split(" : "));
     });
     for(var i=1;i<6;i+=2){
       if(parseInt(score[i])>newScore){
-        score[i-1]=req.params.name;
-        score[i]=String(newScore);
+        for(var j=5;j>=i+2;j-=2){
+          score[j-1]=score[j-1-2];
+          score[j]=score[j-2];
+        }
+        score[i-1] = req.body.name;
+        score[i] = String(newScore);
         break;
       }
     }
@@ -30,12 +30,11 @@ router.post('/:game/:name/:score',function(req,res){
       show.push(temp);
       data += temp;
     }
-    res.render("index.hbs",{layout: false, first: show[0], second: show[1], third: show[2]})
-    fs.writeFile("./data/"+game+".txt",data,(err)=>{
+    fs.writeFile("./data/"+file,data,(err)=>{
       if (err) console.log(err);
+      res.render("highscore.hbs",{layout: false, first: show[0], second: show[1], third: show[2]});
     });
   });
-  res.sendStatus(200);
 });
 
 module.exports = router;

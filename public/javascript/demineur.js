@@ -235,7 +235,9 @@ function win(){
   clearInterval(timer);
   gameTable.id = "win";
   var name = "Yura";
-  ajax.post("/highscore/demineur/"+name+"/"+time,time,function(res){},function(){
+  ajax.post("/highscore/demineur",{time,name},function(res){
+    console.log(res);
+  },function(){
     console.log("Erreur lors du post")
   });
 }

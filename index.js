@@ -1,10 +1,9 @@
 const express = require('express');
 const hbs = require('express-handlebars');
 const app = express();
+app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use('/highscore',require('./server/highscoreRequest.js'));
-
-
 
 app.engine('hbs', hbs({
   extname: 'hbs',
@@ -16,21 +15,25 @@ app.set('view engine', 'hbs');
 app.get('/', function (req, res) {
   let data = {
     title: 'Homepage',
-    css: './css/test.css',
-    script: '',
+    css: './css/shared.css',
     rules: '<p>This is the homepage of this website, not much to see here</p>',
-    first: 'Me',
-    second: 'Me',
-    third: 'Me'
   }
   res.render("homepage.hbs",data);
+});
+
+app.get('/',function(req,res){
+  let data = {
+    first: 'Me',
+    second: 'Me',
+    third: 'Me',
+  }
+  res.render("highscore.hbs",data);
 });
 
 app.get('/demineur', function (req, res) {
   let data = {
     title: 'Demineur',
     css: './css/demineur.css',
-    script: './javascript/demineur.js',
     rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="items" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>'
   }
   res.render("demineur.hbs",data);
@@ -40,7 +43,6 @@ app.get('/glisseur', function (req, res) {
   let data = {
     title: 'Glisseur',
     css: './css/glisseur.css',
-    script: './javascript/glisseur.js',
     rules: '<p>Atteindre une case verte. <br> Jouer avec les flèches du clavier.</p>'
   }
   res.render("glisseur.hbs",data);
@@ -50,7 +52,6 @@ app.get('/faraan', function (req, res) {
   let data = {
     title: 'faraan',
     css: './css/faraan.css',
-    script: './javascript/faraan.js',
     rules: '<p>empty</p>'
   }
   res.render("faraan.hbs",data);
