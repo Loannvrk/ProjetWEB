@@ -16,6 +16,13 @@ var timer;
 var time;
 const ratio = 0.015;// Ratio de bombes/cases
 var colorTab = ["blue","green","red","purple","HotPink","OrangeRed"]
+
+ajax.get("/highscore/demineur",{},function(res){
+  document.querySelector("#highscore").innerHTML=res;
+},function(){
+  console.log("Erreur lors du post")
+});
+
 /***********************************************************************
                             Handler functions
 ************************************************************************/
@@ -236,7 +243,6 @@ function win(){
   gameTable.id = "win";
   var name = "Yura";
   ajax.post("/highscore/demineur",{time,name},function(res){
-    console.log(res);
   },function(){
     console.log("Erreur lors du post")
   });

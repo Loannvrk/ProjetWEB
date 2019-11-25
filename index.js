@@ -1,8 +1,11 @@
 const express = require('express');
 const hbs = require('express-handlebars');
 const app = express();
-app.use(express.urlencoded({extended: true}));
+
 app.use(express.static('public'));
+
+app.use(express.urlencoded({extended: true}));
+
 app.use('/highscore',require('./server/highscoreRequest.js'));
 
 app.engine('hbs', hbs({
@@ -17,15 +20,16 @@ app.get('/', function (req, res) {
     title: 'Homepage',
     css: './css/shared.css',
     rules: '<p>This is the homepage of this website, not much to see here</p>',
+    highscore: "highscore.hbs",
   }
   res.render("homepage.hbs",data);
 });
 
 app.get('/',function(req,res){
   let data = {
-    first: 'Me',
-    second: 'Me',
-    third: 'Me',
+    first: '',
+    second: '',
+    third: '',
   }
   res.render("highscore.hbs",data);
 });
