@@ -38,7 +38,8 @@ app.get('/demineur', function (req, res) {
   let data = {
     title: 'Demineur',
     css: './css/demineur.css',
-    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="items" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>'
+    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="items" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>',
+    script: 'demineur.js'
   }
   res.render("demineur.hbs",data);
 });
@@ -47,7 +48,8 @@ app.get('/glisseur', function (req, res) {
   let data = {
     title: 'Glisseur',
     css: './css/glisseur.css',
-    rules: '<p>Atteindre une case verte. <br> Jouer avec les flèches du clavier.</p>'
+    rules: '<p>Atteindre une case verte. <br> Jouer avec les flèches du clavier.</p>',
+    script: 'glisseur.js'
   }
   res.render("glisseur.hbs",data);
 });
@@ -56,7 +58,8 @@ app.get('/faraan', function (req, res) {
   let data = {
     title: 'faraan',
     css: './css/faraan.css',
-    rules: '<p>empty</p>'
+    rules: '<p>empty</p>',
+    script: 'faraan.js'
   }
   res.render("faraan.hbs",data);
 });
