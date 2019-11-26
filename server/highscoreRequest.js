@@ -42,6 +42,9 @@ router.post('/:game',function(req,res){
     for(var i=0;i<6;i+=2){
       let temp =  score[i]+" : "+score[i+1]+"\n";
       show.push(temp);
+      if(temp=="x : -1"){
+        temp="X ";
+      }
       data += temp;
     }
     fs.writeFile("./data/"+file,data,(err)=>{
