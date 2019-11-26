@@ -14,9 +14,9 @@
         <img class="logo" src="./images/home.svg"/>
       </a>
     </div>
-    <form method="post" action="">
-      <label for="pseudo">Login</label>
-      <input class="log" name="pseudo" type="text">
+    <form method="get" action="" onsubmit="updateLog();return false;">
+      <label for="pseudo">Login : </label>
+      <input type="text" name="pseudo" value="Default" class="log">
     </form>
   </header>
   <main>

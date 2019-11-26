@@ -8,6 +8,8 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/highscore',require('./server/highscoreRequest.js'));
 
+app.use('/submit',require('./server/submitRequest.js'));
+
 app.engine('hbs', hbs({
   extname: 'hbs',
   defaultLayout: 'index',
@@ -19,7 +21,7 @@ app.get('/', function (req, res) {
   let data = {
     title: 'Homepage',
     css: './css/shared.css',
-    rules: 'This is the homepage of this website, not much to see here',
+    rules: 'Double click sur votre pseudo pour logout',
     highscore: "highscore.hbs",
   }
   res.render("homepage.hbs",data);
@@ -38,12 +40,12 @@ app.get('/demineur', function (req, res) {
   let data = {
     title: 'Demineur',
     css: './css/demineur.css',
-    rules: 'Le but est de découvrir toutes les cases libres sans faire exploser les mines <br>'+
-    '<img class="items" src="./images/leftClic.svg"/> = <div class="rules" ></div> -> <div class="visible rules"></div> <br>'+
-    ' <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br>'+
-    ' Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br>'+
-    ' Le<span style="color: red;"> compteur</span> indique le nombre de mines restantes <br>'+
-    ' Le <span style="color: blue;">timer</span> indique le temps',
+    rules: '<br> Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <br>'+
+    '<div> <img class="items" src="./images/leftClic.svg"/> = <div class="rules" ></div> -> <div class="visible rules"></div> </div> <br>'+
+    '<div> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> </div> <br>'+
+    ' Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> <br>'+
+    '<div> Le <span style="color: red;font-weight: bold;">compteur</span> indique le nombre de mines restantes </div> <br>'+
+    '<div> Le <span style="color: blue;font-weight: bold;">timer</span> indique le temps </div>',
     script: 'demineur.js'
   }
   res.render("demineur.hbs",data);

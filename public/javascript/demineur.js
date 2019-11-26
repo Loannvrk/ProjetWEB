@@ -241,7 +241,7 @@ function win(){
         return;
   clearInterval(timer);
   gameTable.id = "win";
-  var name = "Yura";
+  var name = document.querySelector("form div").innerText;
   ajax.post("/highscore/demineur",{time,name},function(res){
     document.querySelector("#highscore").innerHTML=res;
   },function(){

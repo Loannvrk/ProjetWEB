@@ -42,12 +42,10 @@ function initKeydownListener() {
 }
 
 function faireBougerPerso() {
-	console.log(tab);
 	return function(event){bougerPerso(event.keyCode);};
 }
 
 function bougerPerso(keycode){
-	console.log(tab);
 	if(CLICK){
 		var stop = false;
 		switch(keycode){
@@ -71,7 +69,7 @@ function bougerPerso(keycode){
 					posX ++;
 					audio.play();
 					stop =true;
-				} 
+				}
 				}
 				break;
 			case 38://enhaut
@@ -94,7 +92,7 @@ function bougerPerso(keycode){
 						posY++;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 			case 39://adroite
@@ -117,7 +115,7 @@ function bougerPerso(keycode){
 						posX--;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 			case 40://enbas
@@ -140,7 +138,7 @@ function bougerPerso(keycode){
 						posY--;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 		}
@@ -169,7 +167,7 @@ function bougerPerso(keycode){
 					posX ++;
 					audio.play();
 					stop =true;
-				} 
+				}
 				}
 				break;
 			case 38://enhaut2
@@ -193,7 +191,7 @@ function bougerPerso(keycode){
 						posY++;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 			case 39://adroite2
@@ -217,7 +215,7 @@ function bougerPerso(keycode){
 						posX--;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 			case 40://enbas2
@@ -241,7 +239,7 @@ function bougerPerso(keycode){
 						posY--;
 						audio.play();
 						stop =true;
-					} 
+					}
 				}
 				break;
 		}

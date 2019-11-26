@@ -5,8 +5,8 @@
 .cell {
   background-color: grey;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 .rules {
@@ -21,8 +21,8 @@
 
 .items {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
 }
 
 .visible {
@@ -45,23 +45,30 @@
   color: DarkOrange;
 }
 
-table.menu {
+div.menu {
   display: flex;
   flex-direction: column;
   width: 60px;
   background-color: black;
+  height: 100%;
 }
 
 .counter{
-  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   color: red;
-  font-weight: bold;
+  height: 50%;
+  margin-top: 5px;
 }
 
 .timer{
-  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   color: blue;
-  font-weight: bold;
+  height: 50%;
+  margin-bottom: 5px;
 }
