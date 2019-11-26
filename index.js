@@ -58,7 +58,7 @@ app.get('/faraan', function (req, res) {
   let data = {
     title: 'faraan',
     css: './css/faraan.css',
-    rules: '<p>empty</p>',
+    rules: '<p>Failed to load the rules</p>',
     script: 'faraan.js'
   }
   res.render("faraan.hbs",data);
