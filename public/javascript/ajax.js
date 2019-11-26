@@ -56,7 +56,7 @@ var ajax = (function() {
 			}
 		};
     xhr.send(param(data));
-}
+	}
 
 	function getAjaxLib() {
 		var ajax = {};
