@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
   let data = {
     title: 'Homepage',
     css: './css/shared.css',
-    rules: '<p>This is the homepage of this website, not much to see here</p>',
+    rules: 'This is the homepage of this website, not much to see here',
     highscore: "highscore.hbs",
   }
   res.render("homepage.hbs",data);
@@ -38,7 +38,12 @@ app.get('/demineur', function (req, res) {
   let data = {
     title: 'Demineur',
     css: './css/demineur.css',
-    rules: '<p>Le but est de découvrir toutes les cases libres sans faire exploser les mines <br> <img class="items" src="./images/leftClic.svg"/> <div class="rules" ></div> -> <div class="visible rules"></div> <br> <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br> Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br> Le<span class="counter"> compteur</span> indique le nombre de mines restantes <br>Le <span class="timer">timer</span> indique le temps</p>',
+    rules: 'Le but est de découvrir toutes les cases libres sans faire exploser les mines <br>'+
+    '<img class="items" src="./images/leftClic.svg"/> = <div class="rules" ></div> -> <div class="visible rules"></div> <br>'+
+    ' <img class="items" src="./images/rightClic.svg"/> = <img class="items" src="./images/flag.svg" id="flag" />/<span id="mark">?</span> <br>'+
+    ' Le chiffre sur une case libérée indique le nombre de mines sur les cases adjacentes <br>'+
+    ' Le<span style="color: red;"> compteur</span> indique le nombre de mines restantes <br>'+
+    ' Le <span style="color: blue;">timer</span> indique le temps',
     script: 'demineur.js'
   }
   res.render("demineur.hbs",data);
@@ -48,7 +53,7 @@ app.get('/glisseur', function (req, res) {
   let data = {
     title: 'Glisseur',
     css: './css/glisseur.css',
-    rules: '<p>Atteindre une case verte. <br> Jouer avec les flèches du clavier.</p>',
+    rules: 'Atteindre une case verte. <br> Jouer avec les flèches du clavier.',
     script: 'glisseur.js'
   }
   res.render("glisseur.hbs",data);
@@ -58,7 +63,7 @@ app.get('/faraan', function (req, res) {
   let data = {
     title: 'faraan',
     css: './css/faraan.css',
-    rules: '<p>empty</p>',
+    rules: 'empty',
     script: 'faraan.js'
   }
   res.render("faraan.hbs",data);

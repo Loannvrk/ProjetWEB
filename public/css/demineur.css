@@ -20,6 +20,7 @@
 }
 
 .items {
+  display: inline-block;
   width: 16px;
   height: 16px;
 }
@@ -44,23 +45,23 @@
   color: DarkOrange;
 }
 
-table.menu{
+table.menu {
   display: flex;
+  flex-direction: column;
   width: 60px;
   background-color: black;
 }
 
 .counter{
+  justify-content: flex-start;
+  align-items: center;
   color: red;
   font-weight: bold;
 }
 
 .timer{
+  justify-content: flex-end;
+  align-items: center;
   color: blue;
   font-weight: bold;
-}
-
-.menu .empty{
-  display: flex;
-  height: 80%;
 }

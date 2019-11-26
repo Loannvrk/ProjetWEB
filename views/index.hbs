@@ -9,9 +9,15 @@
 </head>
 <body>
   <header>
-    <a href="/">
-      <img class="logo" src="./images/home.svg"/>
-    </a>
+    <div class="logo">
+      <a href="/">
+        <img class="logo" src="./images/home.svg"/>
+      </a>
+    </div>
+    <form method="post" action="">
+      <label for="pseudo">Login</label>
+      <input class="log" name="pseudo" type="text">
+    </form>
   </header>
   <main>
     <table id="leftlist">
@@ -39,7 +45,9 @@
       <div class="spacer"></div>
       <div id="def">
         <h3>{{ title }}</h3>
-        {{{ rules }}}
+        <div>
+          {{{ rules }}}
+        </div>
       </div>
     </div>
   </main>

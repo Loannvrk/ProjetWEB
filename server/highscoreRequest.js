@@ -12,7 +12,7 @@ router.get('/:game',function(req,res){
         highscore[i]="X ";
       }
     }
-    res.render("highscore.hbs",{layout: false, first: highscore[0], second: highscore[1], third: highscore[2]});
+    res.render("highscore.hbs",{layout: false, first: highscore[0]+" s", second: highscore[1]+" s", third: highscore[2]+" s"});
   });
 });
 
@@ -41,15 +41,12 @@ router.post('/:game',function(req,res){
     var show=[];
     for(var i=0;i<6;i+=2){
       let temp =  score[i]+" : "+score[i+1]+"\n";
-      show.push(temp);
-      if(temp=="x : -1"){
-        temp="X ";
-      }
+      show.push(temp=="x : -1\n"?"X ":temp);
       data += temp;
     }
     fs.writeFile("./data/"+file,data,(err)=>{
       if (err) console.log(err);
-      res.render("highscore.hbs",{layout: false, first: show[0], second: show[1], third: show[2]});
+      res.render("highscore.hbs",{layout: false, first: show[0]+" s", second: show[1]+" s", third: show[2]+" s"});
     });
   });
 });
