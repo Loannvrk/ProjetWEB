@@ -1,14 +1,19 @@
 #game2048 {
-  background-color: grey;
+  background-color: #6e6e6e;
   border-radius: 10px;
   padding: 5px;
 }
 #game2048 tr {
   display: flex;
 }
-#game2048 th {
-  background-color: white;
-  width: 100px;
-  height: 100px;
+
+#game2048 .cell {
+  border-radius: 5px;
   margin: 5px;
+  height: 100px;
+  width: 100px;
+}
+
+#game2048 .empty {
+  background-color: #b0b0b0;
 }
