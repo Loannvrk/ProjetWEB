@@ -8,6 +8,7 @@
 }
 
 #game2048 .cell {
+  background-color: pink;
   border-radius: 5px;
   margin: 5px;
   height: 100px;

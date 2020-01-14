@@ -1,3 +1,6 @@
+var gameover = false;
+var score = 0;
+var tab;
 function initInnerHTML() {
   /*void -> HTMLelement[]
     creates an empty table in <table id=#game2048>*/
@@ -21,10 +24,92 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 function left(){
-  //TODO
+var moved = false;
+  for (var x=1; x<4; x++) {
+    for (var y=0; y<4; y++) {
+
+      if (tab[x+4*y].className != 'cell empty') {
+        for (var xx=x-1; xx>=0; xx--) {
+
+          if (tab[x+4*y].textContent == tab[xx +4*y].textContent) {
+            tab[xx +4*y].textContent = Number(tab[xx +4*y].textContent)*2;
+            score += Number(tab[xx +4*y].textContent);
+            tab[x+4*y].textContent = '';
+            tab[x+4*y].className = 'cell empty';
+            moved = true;
+            break;
+          }
+
+          else if (tab[xx+4*y].textContent != '') {
+            if (xx != x-1) {
+              tab[xx+1 +4*y].textContent = tab[x+4*y].textContent;
+              tab[xx+1 +4*y].className = "cell";
+              tab[x+4*y].textContent = '';
+              tab[x+4*y].className = 'cell empty';
+              moved = true;
+            }
+            break;
+          }
+
+          else if (xx == 0) {
+            tab[xx+4*y].textContent = tab[x+4*y].textContent;
+            tab[xx+4*y].className = "cell";
+            tab[x+4*y].textContent = '';
+            tab[x+4*y].className = 'cell empty';
+            moved = true;
+          }
+
+        }
+      }
+
+    }
+  }
+return moved
 }
+
 function up(){
-  //TODO
+  var moved = false;
+
+  for (var x=0; x<4; x++) {
+      for (var y=1; y<4; y++){
+        if (tab[x+4*y].className != 'cell empty') {
+          for (var yy=y-1; yy>=0; yy--) {
+
+            if (tab[x+4*y].textContent == tab[x+4*yy].textContent) {
+              tab[x+4*yy].textContent = Number(tab[x+4*y].textContent)*2;
+              score += Number(tab[x+4*yy].textContent);
+              tab[x+4*y].textContent = '';
+              tab[x+4*y].className = 'cell empty';
+              moved = true;
+              break;
+            }
+
+            else if (tab[x+4*yy].textContent != ''){
+              if(yy!=y-1) {
+                tab[x+4*(yy+1)].textContent = tab[x+4*y].textContent;
+                tab[x+4*(yy+1)].className = 'cell';
+                tab[x+4*y].textContent = '';
+                tab[x+4*y].className = 'cell empty'
+                moved = true;
+              }
+              break;
+            }
+
+            else if (yy==0){
+              tab[x+4*yy].textContent = tab[x+4*y].textContent;
+              tab[x+4*yy].className = 'cell';
+              tab[x+4*y].textContent = '';
+              tab[x+4*y].className = 'cell empty';
+              moved = true;
+            }
+
+          }
+        }
+
+      }
+  }
+
+  return moved;
 }
 function right(){
   //TODO
@@ -38,25 +123,31 @@ function  addNumber(){
   if (cell == undefined) {
     gameOver('stuck');
   }else {
-    var n = getRandomInt(2);
-    n = n*2+2;
-    cell.textContent = n;
-    cell.className = 'cell cell'+n;
+    var rand = Math.random();
+    if (rand < 0.2) {
+      cell.textContent = 4
+    }else {
+      cell.textContent = 2;
+    }
+    cell.className = "cell";
   }
   //TODO
 }
 function gameOver(reason){
   //TODO
+  gameover = true;
   if (reason == 'stuck') {
     alert("vous êtes coincé, vous avez perdu");
   }
 }
 function play(keycode){
-  //TODO stop when games stop (variable global bool ?)
-  if (keycode == 37) {
-    left();
-  }else if(keycode == 38){
-    up();
+  var moved = false;
+  if (gameover) {
+    return;
+  }else if (keycode == 37) {
+    moved = left();
+  }else if(keycode == 38) {
+    moved = up();
   }else if (keycode == 39) {
     right();
   }else if (keycode == 40) {
@@ -64,7 +155,10 @@ function play(keycode){
   }else {
     return;
   }
-  addNumber();
+  if (moved) {
+    addNumber();
+    console.log(score);
+  }
 }
 
 function getPlay() {
@@ -83,3 +177,4 @@ initInnerHTML();
 initKeyboardListener();
 addNumber();
 addNumber();
+tab = document.querySelectorAll(".cell");
