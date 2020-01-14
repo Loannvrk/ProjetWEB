@@ -1,0 +1,128 @@
+header {
+  position: fixed;
+  background-color: black;
+  display: flex;
+  flex-flow: row nowrap;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+}
+
+body {
+  background-color: #333333;
+  overflow: hidden;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: fixed;
+  height: calc(98% - 50px);
+  width: 98%;
+  top: calc(1% + 50px);
+  left: 1%;
+}
+
+form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+input, form div {
+  display: flex;
+  align-self: center;
+  align-items: flex-end;
+  width: 70px;
+  margin-right: 5px;
+}
+
+label {
+  display: flex;
+  color: white;
+  margin-right: 5px;
+}
+
+.flextable tr {
+  flex-direction: column;
+  display: flex;
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+
+.flextable tr th {
+  background-color: grey;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;
+}
+
+.flextable tr td {
+  padding: 5px;
+  margin-left: 10px;
+  text-align: center;
+}
+
+#leftlist {
+  width: 200px;
+  overflow: scroll;
+}
+
+#rightdiv {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+#highscores {
+  width: 100%;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+#def {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgrey;
+  border-radius: 10px;
+  flex-grow: 1;
+}
+
+#def h3 {
+  text-align: center;
+  background-color: grey;
+  margin: 0;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  margin-left: 25px;
+  margin-right: 25px;
+  justify-content: center;
+  border-radius: 20px;
+  flex-grow: 1;
+}
+
+#game {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="./faraan.css"/>
+  <link rel="stylesheet" type="text/css" href="./shared.css"/>
+  <script src="javascript/ajax.js"></script>
+  <title>{{ title }}</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="/">
+        <img class="logo" src="./images/home.svg"/>
+      </a>
+    </div>
+    <form method="get" action="" onsubmit="updateLog();return false;">
+      <label for="pseudo">Login : </label>
+      <input type="text" name="pseudo" value="Default" class="log">
+    </form>
+  </header>
+  <main>
+    <table id="leftlist">
+      <tbody class="flextable">
+        <tr>
+          <th>Games :</th>
+          <td><a href="/demineur">Démineur</a></td>
+          <td><a href="/glisseur">Glisseur</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="center">
+      <div id="game">
+        <table id="game2048">
+        </table>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <table id="highscores">
+        <tbody class="flextable">
+          <tr id="highscore">
+            {{{highscore}}}
+          </tr>
+        </tbody>
+      </table>
+      <div class="spacer"></div>
+      <div id="def">
+        <h3>{{ title }}</h3>
+        <div id="rules">
+          {{{ rules }}}
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="faraan.js"></script>
+</body>
+</html>
