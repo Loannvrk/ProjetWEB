@@ -1,20 +1,86 @@
 #game2048 {
   background-color: #6e6e6e;
   border-radius: 10px;
-  padding: 5px;
-}
-#game2048 tr {
-  display: flex;
+  padding: 10px;
 }
 
 #game2048 .cell {
-  background-color: pink;
+  padding: 0px;
+  background-color: lightgrey;
   border-radius: 5px;
-  margin: 5px;
   height: 100px;
   width: 100px;
+  box-sizing: border-box;
+}
+
+#game2048 .cell2 {
+  background-color : #fee7f0;
+}
+
+#game2048 .cell4 {
+  background-color : #fde9e0;
+}
+
+#game2048 .cell8 {
+  background-color : #febfd2;
+}
+
+#game2048 .cell16 {
+  background-color : #fdbfb7;
+}
+
+#game2048 .cell32 {
+  background-color : #fe96a0;
+}
+
+#game2048 .cell64 {
+  background-color : #fd6c9e;
+}
+
+#game2048 .cell128 {
+  background-color : #fd3f92;
+}
+
+#game2048 .cell256 {
+  background-color : #fc5d5d;
+}
+
+#game2048 .cell512 {
+  background-color : #db0073;
+}
+
+#game2048 .cell1024 {
+  background-color : #df73ff;
+}
+
+#game2048 .cell2048 {
+  background-color : #884da7;
+}
+
+#game2048 .cell4096 {
+  background-color : #791cf8;
+}
+
+#game2048 .cell8192 {class="cell empty"
+  background-color : #6c0277;
+}
+
+#game2048 .cell16384 {
+  background-color : #660099;
+}
+
+#game2048 .cell32768 {
+  background-color : #4b0082;
+}
+
+#game2048 .cell65536 {
+  background-color : #2b009a;
+}
+
+#game2048 .cell131072 {
+  background-color : #0f056b;
 }
 
 #game2048 .empty {
-  background-color: #b0b0b0;
+  background-color: #a0a0a0;
 }
