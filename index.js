@@ -61,14 +61,14 @@ app.get('/glisseur', function (req, res) {
   res.render("glisseur.hbs",data);
 });
 
-app.get('/faraan', function (req, res) {
+app.get('/2048', function (req, res) {
   let data = {
-    title: 'faraan',
-    css: './css/faraan.css',
+    title: '2048',
+    css: './css/2048.css',
     rules: '<p id=\'rules\'>Failed to load the rules</p>',
-    script: 'faraan.js'
+    script: '2048.js'
   }
-  res.render("faraan.hbs",data);
+  res.render("2048.hbs",data);
 });
 
 app.get('/*', function (req, res) {

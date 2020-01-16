@@ -26,6 +26,7 @@ function getRandomInt(max) {
 function left(){
 var moved = false;
 var maxxx;
+var n;
   for (var y=0; y<4; y++) {
     maxxx = -1;
     for (var x=1; x<4; x++) {//parcours du tableau
@@ -34,19 +35,23 @@ var maxxx;
         for (var xx=x-1; xx>=0; xx--) {//on regarde les cases a sa gauche
           //si la case est du même chiffre, alors on fusionne
           if (xx>maxxx && tab[x+4*y].textContent == tab[xx +4*y].textContent) {
-            tab[xx +4*y].textContent = Number(tab[xx +4*y].textContent)*2;
-            score += Number(tab[xx +4*y].textContent);
+            n = Number(tab[xx +4*y].textContent)*2;
+            tab[xx +4*y].textContent = n;
+            tab[xx+4*y].className = 'cell cell'+n;
+            score += n;
             tab[x+4*y].textContent = '';
             tab[x+4*y].className = 'cell empty';
             moved = true;
             maxxx = xx; //la case résultante ne peux pas être refusionée
+            if (n==2048) {gameOver("win");}
             break;
           }
           //sinon on déplace avant la prochaine case pleine
           else if (tab[xx+4*y].textContent != '') {
             if (xx != x-1) {
-              tab[xx+1 +4*y].textContent = tab[x+4*y].textContent;
-              tab[xx+1 +4*y].className = "cell";
+              n = tab[x+4*y].textContent;
+              tab[xx+1 +4*y].textContent = n;
+              tab[xx+1 +4*y].className = "cell cell"+n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty';
               moved = true;
@@ -55,8 +60,9 @@ var maxxx;
           }
           //sinon on déplace tout a gauche
           else if (xx == 0) {
-            tab[xx+4*y].textContent = tab[x+4*y].textContent;
-            tab[xx+4*y].className = "cell";
+            n = tab[x+4*y].textContent;
+            tab[xx+4*y].textContent = n;
+            tab[xx+4*y].className = "cell cell"+n;
             tab[x+4*y].textContent = '';
             tab[x+4*y].className = 'cell empty';
             moved = true;
@@ -74,6 +80,7 @@ function up(){
   //voir les commentaires de left()
   var moved = false;
   var maxyy;
+  var n;
   for (var x=0; x<4; x++) {
     maxyy = -1;
       for (var y=1; y<4; y++){
@@ -82,19 +89,23 @@ function up(){
           for (var yy=y-1; yy>=0; yy--) {
 
             if (yy>maxyy &&tab[x+4*y].textContent == tab[x+4*yy].textContent) {
-              tab[x+4*yy].textContent = Number(tab[x+4*y].textContent)*2;
-              score += Number(tab[x+4*yy].textContent);
+              n=Number(tab[x+4*y].textContent)*2;
+              tab[x+4*yy].textContent = n;
+              tab[x+4*yy].className = 'cell cell'+n;
+              score += n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty';
               moved = true;
               maxyy = yy;
+              if (n==2048) {gameOver("win");}
               break;
             }
 
             else if (tab[x+4*yy].textContent != ''){
               if(yy!=y-1) {
-                tab[x+4*(yy+1)].textContent = tab[x+4*y].textContent;
-                tab[x+4*(yy+1)].className = 'cell';
+                n=tab[x+4*y].textContent;
+                tab[x+4*(yy+1)].textContent = n;
+                tab[x+4*(yy+1)].className = 'cell cell'+n;
                 tab[x+4*y].textContent = '';
                 tab[x+4*y].className = 'cell empty'
                 moved = true;
@@ -103,8 +114,9 @@ function up(){
             }
 
             else if (yy==0){
-              tab[x+4*yy].textContent = tab[x+4*y].textContent;
-              tab[x+4*yy].className = 'cell';
+              n = tab[x+4*y].textContent;
+              tab[x+4*yy].textContent = n;
+              tab[x+4*yy].className = 'cell cell'+n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty';
               moved = true;
@@ -122,6 +134,7 @@ function right(){
   //voir les commentaires de left()
   var moved = false;
   var maxxx;
+  var n;
 
   for (var y=0; y<4; y++) {
     maxxx=4;
@@ -131,19 +144,23 @@ function right(){
         for (var xx=x+1; xx<4; xx++) {
 
           if (xx<maxxx && tab[xx+4*y].textContent == tab[x+4*y].textContent) {
-            tab[xx +4*y].textContent = Number(tab[xx +4*y].textContent)*2;
-            score += Number(tab[xx +4*y].textContent);
+            n = Number(tab[x+4*y].textContent)*2;
+            tab[xx+4*y].textContent = n;
+            tab[xx+4*y].className = 'cell cell'+n;
+            score += n;
             tab[x+4*y].textContent = '';
             tab[x+4*y].className = 'cell empty';
             moved = true;
             maxxx = xx;
+            if (n==2048) {gameOver("win");}
             break;
           }
 
           else if (tab[xx+4*y].textContent != ''){
             if(xx!=x+1) {
-              tab[xx-1+4*y].textContent = tab[x+4*y].textContent;
-              tab[xx-1+4*y].className = 'cell';
+              n = tab[x+4*y].textContent;
+              tab[xx-1+4*y].textContent = n;
+              tab[xx-1+4*y].className = 'cell cell'+n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty'
               moved = true;
@@ -152,8 +169,9 @@ function right(){
           }
 
           else if (xx==3){
-            tab[xx+4*y].textContent = tab[x+4*y].textContent;
-            tab[xx+4*y].className = 'cell';
+            n=tab[x+4*y].textContent;
+            tab[xx+4*y].textContent = n;
+            tab[xx+4*y].className = 'cell cell'+n;
             tab[x+4*y].textContent = '';
             tab[x+4*y].className = 'cell empty';
             moved = true;
@@ -171,6 +189,7 @@ function down(){
   //voir les commentaires de left()
   var moved = false;
   var maxyy;
+  var n;
   for (var x=0; x<4; x++) {
     maxyy = 4;
       for (var y=2; y>=0; y--){
@@ -178,19 +197,23 @@ function down(){
           for (var yy=y+1; yy<4; yy++) {
 
             if (yy<maxyy && tab[x+4*y].textContent == tab[x+4*yy].textContent) {
-              tab[x+4*yy].textContent = Number(tab[x+4*y].textContent)*2;
-              score += Number(tab[x+4*yy].textContent);
+              n = Number(tab[x+4*y].textContent)*2;
+              tab[x+4*yy].textContent = n;
+              tab[x+4*yy].className = 'cell cell'+n;
+              score += n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty';
               moved = true;
               maxyy = yy;
+              if (n==2048) {gameOver("win");}
               break;
             }
 
             else if (tab[x+4*yy].textContent != ''){
               if(yy!=y+1) {
-                tab[x+4*(yy-1)].textContent = tab[x+4*y].textContent;
-                tab[x+4*(yy-1)].className = 'cell';
+                n = tab[x+4*y].textContent;
+                tab[x+4*(yy-1)].textContent = n;
+                tab[x+4*(yy-1)].className = 'cell cell'+n;
                 tab[x+4*y].textContent = '';
                 tab[x+4*y].className = 'cell empty'
                 moved = true;
@@ -199,8 +222,9 @@ function down(){
             }
 
             else if (yy==3){
-              tab[x+4*yy].textContent = tab[x+4*y].textContent;
-              tab[x+4*yy].className = 'cell';
+              n = tab[x+4*y].textContent;
+              tab[x+4*yy].textContent = n;
+              tab[x+4*yy].className = 'cell cell'+ n;
               tab[x+4*y].textContent = '';
               tab[x+4*y].className = 'cell empty';
               moved = true;
@@ -223,21 +247,51 @@ function  addNumber(){
     var rand = Math.random();
     if (rand < 0.2) {
       cell.textContent = 4
+      cell.className = "cell cell4";
     }else {
       cell.textContent = 2;
+      cell.className = "cell cell2";
     }
-    cell.className = "cell";
   }
   //TODO
 }
 function gameOver(reason){
   //TODO
-  gameover = true;
-  if (reason == 'stuck') {
-    alert("vous êtes coincé, vous avez perdu\nscore : "+score);
+  if (reason == 'win') {
+    gameover=false;
+    alert("Vous avez gagné!\nContinuez de jouer pour battre le record!");
   }
-  return score;
+
+  if (reason == 'stuck') {
+    gameover = true;
+    alert("Vous êtes coincé!\nscore final : "+score);
+  }
 }
+
+function gameIsStuck(){
+  if(tab[0].textContent == '' || tab[3+3*4].textContent == '') {
+    return false;
+  }
+  for (var x=0; x<3; x++) {
+    for (var y=0; y<3; y++) {
+      if (tab[x+4*y].textContent == tab[x+1+4*y].textContent || tab[x+4*y].textContent == tab[x+4*(y+1)].textContent || tab[x+1+4*y].textContent == '' || tab[x+4*(y+1)].textContent == '') {
+        return false;
+      }
+    }
+  }
+  for (var i = 0; i <3; i++) {
+    if (tab[3+4*i].textContent == tab[3+4*i].textContent) {
+      return false;
+    }
+  }
+  for (var i = 0; i <3; i++) {
+    if (tab[i+4*3].textContent == tab[i+1+4*3].textContent) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function play(keycode){
   var moved = false;
   if (gameover) {
@@ -255,7 +309,9 @@ function play(keycode){
   }
   if (moved) {
     addNumber();
-    console.log(score);
+  }
+  if (gameIsStuck()) {
+    gameOver("stuck");
   }
 }
 
